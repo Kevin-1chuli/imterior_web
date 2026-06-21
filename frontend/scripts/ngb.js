@@ -26,12 +26,12 @@
  * 
  * MEDIA FILES (relative to ngb.html location):
  * Images:
- *   - ../assets/images/home/img1.jpg
- *   - ../assets/images/home/img2.jpg
- *   - ../assets/images/home/img3.jpg
- *   - ../assets/images/home/img4.jpg
+ *   - ./assets/images/home/img1.jpg
+ *   - ./assets/images/home/img2.jpg
+ *   - ./assets/images/home/img3.jpg
+ *   - ./assets/images/home/img4.jpg
  * Video:
- *   - ../assets/videos/hero.mp4 (30-second cinematic interior video)
+ *   - ./assets/videos/hero.mp4 (30-second cinematic interior video)
  * 
  * VISUAL EFFECTS:
  * - Smooth fade transitions between all media (images and video)
@@ -49,20 +49,20 @@
 const HERO_MEDIA_CONFIG = {
   // IMAGE CAROUSEL: Rotates through these images before playing video
   // Each image displays for imageDuration milliseconds
-  // Paths are relative to the HTML file (frontend/ngb.html → ../assets/...)
+  // Paths are relative to the HTML file (frontend/ngb.html → ./assets/...)
   // ACTUAL FILES IN YOUR PROJECT:
   carouselImages: [
-    '../assets/images/home/download (1).jpg',  // Your first image
-    '../assets/images/home/image0.jpg',        // Your second image
-    '../assets/images/home/image3 (1).jpg',    // Your third image
-    '../assets/images/home/image4 (1).jpg',    // Your fourth image
+    './assets/images/home/download (1).jpg',  // Your first image
+    './assets/images/home/image0.jpg',        // Your second image
+    './assets/images/home/image3 (1).jpg',    // Your third image
+    './assets/images/home/image4 (1).jpg',    // Your fourth image
   ],
   
   // VIDEO: Plays after all images have cycled once
   // Path is relative to the HTML file
   // Video should be ~30 seconds, will play once then return to image carousel
   // ACTUAL FILE IN YOUR PROJECT:
-  videoSrc: '../assets/videos/0620(1).mp4',  // Your 30-second video
+  videoSrc: './assets/videos/0620(1).mp4',  // Your 30-second video
   
   // How long each image displays (in milliseconds)
   // Recommended: 5000-7000 (5-7 seconds per image)
@@ -944,7 +944,7 @@ const furnitureData = [
     title: 'Contemporary 3-Seater Sofa',
     category: 'sofas',
     categoryDisplay: 'Sofas & Living Room',
-    image: '../assets/images/gallery/sofas/sofa (1).jpg',
+    image: './assets/images/gallery/sofas/sofa (1).jpg',
     description: 'Handcrafted three-seater sofa with premium upholstery and solid hardwood frame.',
     material: 'Solid Mahogany frame, premium fabric upholstery, high-density foam',
     priceRange: {
@@ -957,7 +957,7 @@ const furnitureData = [
     title: 'Executive L-Shape Sectional',
     category: 'sofas',
     categoryDisplay: 'Sofas & Living Room',
-    image: '../assets/images/gallery/sofas/sofa (2).jpg',
+    image: './assets/images/gallery/sofas/sofa (2).jpg',
     description: 'Spacious L-shaped sectional with deep seating and modular design.',
     material: 'Solid Mugavu frame, premium upholstery, multi-density foam',
     priceRange: {
@@ -970,7 +970,7 @@ const furnitureData = [
     title: 'Classic Chesterfield Sofa',
     category: 'sofas',
     categoryDisplay: 'Sofas & Living Room',
-    image: '../assets/images/gallery/sofas/sofa (3).jpg',
+    image: './assets/images/gallery/sofas/sofa (3).jpg',
     description: 'Timeless Chesterfield design with deep button tufting and rolled arms.',
     material: 'Solid Mahogany frame, hand-tied springs, genuine leather or fabric',
     priceRange: {
@@ -983,7 +983,7 @@ const furnitureData = [
     title: 'Modern Minimalist Sofa',
     category: 'sofas',
     categoryDisplay: 'Sofas & Living Room',
-    image: '../assets/images/gallery/sofas/sofa (4).jpg',
+    image: './assets/images/gallery/sofas/sofa (4).jpg',
     description: 'Clean-lined contemporary sofa with sleek profile.',
     material: 'Solid Musyamba frame, high-resilience foam, premium fabric',
     priceRange: {
@@ -996,7 +996,7 @@ const furnitureData = [
     title: 'Luxury Velvet Sofa Set',
     category: 'sofas',
     categoryDisplay: 'Sofas & Living Room',
-    image: '../assets/images/gallery/sofas/sofa (5).jpg',
+    image: './assets/images/gallery/sofas/sofa (5).jpg',
     description: 'Opulent velvet upholstered sofa with gold-finished legs.',
     material: 'Solid Mahogany frame, premium velvet, gold-finished legs',
     priceRange: {
@@ -1011,7 +1011,7 @@ const furnitureData = [
     title: 'Classic 3-Door Wardrobe',
     category: 'wardrobes',
     categoryDisplay: 'Wardrobes & Storage',
-    image: '../assets/images/gallery/wadrobes/wadrobes (1).jpg',
+    image: './assets/images/gallery/wadrobes/wadrobes (1).jpg',
     description: 'Traditional three-door wardrobe with hanging space and shelves.',
     material: 'Solid Mugavu frame, premium MDF panels, soft-close hinges',
     priceRange: {
@@ -1024,7 +1024,7 @@ const furnitureData = [
     title: 'Modern Sliding Door Wardrobe',
     category: 'wardrobes',
     categoryDisplay: 'Wardrobes & Storage',
-    image: '../assets/images/gallery/wadrobes/wadrobes (2).jpg',
+    image: './assets/images/gallery/wadrobes/wadrobes (2).jpg',
     description: 'Space-saving wardrobe with smooth sliding doors.',
     material: 'Premium MDF, aluminum sliding tracks, soft-close mechanism',
     priceRange: {
@@ -1037,7 +1037,7 @@ const furnitureData = [
     title: 'Built-In Wardrobe System',
     category: 'wardrobes',
     categoryDisplay: 'Wardrobes & Storage',
-    image: '../assets/images/gallery/wadrobes/wadrobes (3).jpg',
+    image: './assets/images/gallery/wadrobes/wadrobes (3).jpg',
     description: 'Floor-to-ceiling custom wardrobe system.',
     material: 'Premium MDF construction, German soft-close hardware',
     priceRange: {
@@ -1050,7 +1050,7 @@ const furnitureData = [
     title: '4-Door Executive Wardrobe',
     category: 'wardrobes',
     categoryDisplay: 'Wardrobes & Storage',
-    image: '../assets/images/gallery/wadrobes/wadrobes (4).jpg',
+    image: './assets/images/gallery/wadrobes/wadrobes (4).jpg',
     description: 'Spacious four-door wardrobe with elegant detailing.',
     material: 'Solid Mahogany construction, premium MDF panels',
     priceRange: {
@@ -1065,7 +1065,7 @@ const furnitureData = [
     title: 'Classic 6-Seater Dining Set',
     category: 'dining',
     categoryDisplay: 'Dining Furniture',
-    image: '../assets/images/gallery/dining tables/dining (1).jpg',
+    image: './assets/images/gallery/dining tables/dining (1).jpg',
     description: 'Elegant solid wood dining table with six upholstered chairs.',
     material: 'Solid Mahogany table, hardwood chairs, cushioned seats',
     priceRange: {
@@ -1078,7 +1078,7 @@ const furnitureData = [
     title: 'Contemporary Extendable Dining Table',
     category: 'dining',
     categoryDisplay: 'Dining Furniture',
-    image: '../assets/images/gallery/dining tables/dining (2).jpg',
+    image: './assets/images/gallery/dining tables/dining (2).jpg',
     description: 'Modern dining table with extension mechanism.',
     material: 'Solid Musyamba wood, precision extension mechanism',
     priceRange: {
@@ -1091,7 +1091,7 @@ const furnitureData = [
     title: 'Rustic Farmhouse Dining Set',
     category: 'dining',
     categoryDisplay: 'Dining Furniture',
-    image: '../assets/images/gallery/dining tables/dining (3).jpg',
+    image: './assets/images/gallery/dining tables/dining (3).jpg',
     description: 'Chunky wooden dining table with rustic charm.',
     material: 'Solid Mugavu wood, hand-finished surface',
     priceRange: {
@@ -1104,7 +1104,7 @@ const furnitureData = [
     title: 'Executive 8-Seater Dining Suite',
     category: 'dining',
     categoryDisplay: 'Dining Furniture',
-    image: '../assets/images/gallery/dining tables/dining (4).jpg',
+    image: './assets/images/gallery/dining tables/dining (4).jpg',
     description: 'Grand dining suite with eight luxurious chairs.',
     material: 'Premium Mahogany table and chairs, upholstered seating',
     priceRange: {
@@ -1117,7 +1117,7 @@ const furnitureData = [
     title: 'Modern Glass & Wood Dining Set',
     category: 'dining',
     categoryDisplay: 'Dining Furniture',
-    image: '../assets/images/gallery/dining tables/dining (5).jpg',
+    image: './assets/images/gallery/dining tables/dining (5).jpg',
     description: 'Contemporary dining table with glass top and wood base.',
     material: 'Tempered glass top, solid Musyamba wood base',
     priceRange: {
@@ -1132,7 +1132,7 @@ const furnitureData = [
     title: 'Contemporary Glass Coffee Table',
     category: 'tables',
     categoryDisplay: 'Coffee Tables',
-    image: '../assets/images/gallery/coffee sets(center tables)/center table (2).jpg',
+    image: './assets/images/gallery/coffee sets(center tables)/center table (2).jpg',
     description: 'Modern coffee table with tempered glass top.',
     material: 'Tempered glass, solid Musyamba wood base',
     priceRange: {
@@ -1145,7 +1145,7 @@ const furnitureData = [
     title: 'Solid Wood Coffee Table',
     category: 'tables',
     categoryDisplay: 'Coffee Tables',
-    image: '../assets/images/gallery/coffee sets(center tables)/center table (3).jpg',
+    image: './assets/images/gallery/coffee sets(center tables)/center table (3).jpg',
     description: 'Classic all-wood coffee table with lower shelf.',
     material: 'Solid Mugavu wood throughout',
     priceRange: {
@@ -1158,7 +1158,7 @@ const furnitureData = [
     title: 'Marble Top Coffee Table',
     category: 'tables',
     categoryDisplay: 'Coffee Tables',
-    image: '../assets/images/gallery/coffee sets(center tables)/center table (4).jpg',
+    image: './assets/images/gallery/coffee sets(center tables)/center table (4).jpg',
     description: 'Luxury coffee table with genuine marble top.',
     material: 'Genuine marble top, powder-coated metal base',
     priceRange: {
@@ -1171,7 +1171,7 @@ const furnitureData = [
     title: 'Nested Coffee Table Set',
     category: 'tables',
     categoryDisplay: 'Coffee Tables',
-    image: '../assets/images/gallery/coffee sets(center tables)/center table (5).jpg',
+    image: './assets/images/gallery/coffee sets(center tables)/center table (5).jpg',
     description: 'Set of three nesting tables for flexible arrangement.',
     material: 'Solid Musyamba wood tops, metal legs',
     priceRange: {
@@ -1184,7 +1184,7 @@ const furnitureData = [
     title: 'Round Coffee Table',
     category: 'tables',
     categoryDisplay: 'Coffee Tables',
-    image: '../assets/images/gallery/coffee sets(center tables)/center table (6).jpg',
+    image: './assets/images/gallery/coffee sets(center tables)/center table (6).jpg',
     description: 'Circular coffee table with pedestal base.',
     material: 'Solid Mahogany top and pedestal base',
     priceRange: {
@@ -1199,7 +1199,7 @@ const furnitureData = [
     title: 'Upholstered Platform Bed - Queen',
     category: 'beds',
     categoryDisplay: 'Beds & Bedroom',
-    image: '../assets/images/gallery/beds/bed (1).jpg',
+    image: './assets/images/gallery/beds/bed (1).jpg',
     description: 'Contemporary queen-size bed with padded headboard.',
     material: 'Solid hardwood frame, high-density foam, premium fabric',
     priceRange: {
@@ -1212,7 +1212,7 @@ const furnitureData = [
     title: 'Classic Wooden Bed Frame - King',
     category: 'beds',
     categoryDisplay: 'Beds & Bedroom',
-    image: '../assets/images/gallery/beds/bed (2).jpg',
+    image: './assets/images/gallery/beds/bed (2).jpg',
     description: 'Solid wood king-size bed with carved headboard.',
     material: 'Solid Mahogany construction, hand-carved details',
     priceRange: {
@@ -1225,7 +1225,7 @@ const furnitureData = [
     title: 'Modern Low-Profile Bed',
     category: 'beds',
     categoryDisplay: 'Beds & Bedroom',
-    image: '../assets/images/gallery/beds/bed (3).jpg',
+    image: './assets/images/gallery/beds/bed (3).jpg',
     description: 'Minimalist low-height bed with clean lines.',
     material: 'Solid Musyamba wood frame, platform base',
     priceRange: {
@@ -1238,7 +1238,7 @@ const furnitureData = [
     title: 'Storage Bed with Drawers',
     category: 'beds',
     categoryDisplay: 'Beds & Bedroom',
-    image: '../assets/images/gallery/beds/bed (4).jpg',
+    image: './assets/images/gallery/beds/bed (4).jpg',
     description: 'Practical bed frame with built-in drawer storage.',
     material: 'Solid wood frame, MDF drawer boxes, quality slides',
     priceRange: {
@@ -1251,7 +1251,7 @@ const furnitureData = [
     title: 'Four-Poster Canopy Bed',
     category: 'beds',
     categoryDisplay: 'Beds & Bedroom',
-    image: '../assets/images/gallery/beds/bed (5).jpg',
+    image: './assets/images/gallery/beds/bed (5).jpg',
     description: 'Elegant four-poster bed with tall posts.',
     material: 'Solid Mahogany posts and frame, turned details',
     priceRange: {
@@ -1266,7 +1266,7 @@ const furnitureData = [
     title: 'Modern TV Entertainment Unit',
     category: 'tv-units',
     categoryDisplay: 'TV Units & Media Storage',
-    image: '../assets/images/gallery/TV units/TV unit (1).jpg',
+    image: './assets/images/gallery/TV units/TV unit (1).jpg',
     description: 'Contemporary media console with shelving.',
     material: 'Solid Musyamba frame, MDF panels, cable management',
     priceRange: {
@@ -1279,7 +1279,7 @@ const furnitureData = [
     title: 'Wall-Mounted TV Cabinet',
     category: 'tv-units',
     categoryDisplay: 'TV Units & Media Storage',
-    image: '../assets/images/gallery/TV units/TV unit (2).jpg',
+    image: './assets/images/gallery/TV units/TV unit (2).jpg',
     description: 'Space-saving floating TV unit with closed storage.',
     material: 'Premium MDF construction, soft-close hinges',
     priceRange: {
