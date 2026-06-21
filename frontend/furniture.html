@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Custom furniture details from NGB Interiors — handcrafted pieces built to your specifications." />
+    <meta name="theme-color" content="#1a1a1a" />
+    <title>Furniture Details | NGB Interiors</title>
+    <link rel="icon" type="image/png" href="../assets/images/gallery/logo.png" />
+    <link rel="stylesheet" href="./styles/ngb.css" />
+    <link rel="stylesheet" href="./styles/furniture.css" />
+    <style>
+      /* Furniture Details Page Styles */
+      .furniture-hero {
+        position: relative;
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #0a0a0a;
+      }
+
+      .furniture-hero__background {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.3;
+        filter: brightness(0.5);
+      }
+
+      .furniture-hero__content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 3rem 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .furniture-hero__eyebrow {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #d4af37;
+        margin-bottom: 1rem;
+      }
+
+      .furniture-hero__title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+      }
+
+      .furniture-hero__description {
+        font-size: 1.125rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+      }
+
+      .furniture-hero__nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .furniture-hero__nav a {
+        color: #d4af37;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .furniture-hero__nav a:hover {
+        color: #fff;
+      }
+
+      .product-detail {
+        padding: 4rem 0;
+        background: #0a0a0a;
+      }
+
+      .product-detail__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
+
+      .product-detail__main-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .product-detail__sidebar {
+        color: #fff;
+      }
+
+      .product-detail__category {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #d4af37;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-detail__title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .product-detail__description {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+      }
+
+      .product-specs {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .product-specs__title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #d4af37;
+      }
+
+      .product-spec {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .product-spec:last-child {
+        border-bottom: none;
+      }
+
+      .product-spec__label {
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .product-spec__value {
+        text-align: right;
+        color: #fff;
+        max-width: 60%;
+      }
+
+      .product-spec--price .product-spec__value {
+        color: #d4af37;
+        font-weight: 600;
+        font-size: 1.125rem;
+      }
+
+      .customization-form {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 2rem;
+      }
+
+      .customization-form__title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #d4af37;
+      }
+
+      .form__group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form__label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .form__select,
+      .form__textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        color: #fff;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.2s;
+      }
+
+      .form__select:focus,
+      .form__textarea:focus {
+        outline: none;
+        border-color: #d4af37;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .form__select option {
+        background: #1a1a1a;
+        color: #fff;
+      }
+
+      .form__textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .btn--submit-quote {
+        width: 100%;
+        padding: 1rem;
+        background: #d4af37;
+        color: #0a0a0a;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn--submit-quote:hover {
+        background: #e5c048;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+      }
+
+      .related-products {
+        padding: 4rem 0;
+        background: #050505;
+      }
+
+      .related-products__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      .related-products__title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .related-products__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+
+      .product-card-compact {
+        display: block;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .product-card-compact:hover {
+        transform: translateY(-4px);
+        border-color: #d4af37;
+        box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+      }
+
+      .product-card-compact__image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .product-card-compact__content {
+        padding: 1.5rem;
+      }
+
+      .product-card-compact__title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-card-compact__price {
+        font-size: 1rem;
+        color: #d4af37;
+        font-weight: 500;
+      }
+
+      .error {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 3rem 1.5rem;
+        background: #0a0a0a;
+        color: #fff;
+      }
+
+      .error__title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #d4af37;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .furniture-hero__title {
+          font-size: 2rem;
+        }
+
+        .product-detail__container {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .product-detail__title {
+          font-size: 2rem;
+        }
+
+        .product-spec {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .product-spec__value {
+          text-align: left;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body id="top">
+
+    <!-- HEADER -->
+    <header id="site-header" role="banner">
+      <div class="header__inner container">
+
+        <div class="header__brand">
+          <a href="ngb.html" class="brand__link" aria-label="NGB Interiors — go to homepage">
+            <img
+              src="../assets/images/gallery/logo.png"
+              alt="NGB Interiors logo"
+              class="brand__logo"
+              width="80"
+              height="80"
+            />
+            <div class="brand__text">
+              <span class="brand__name">NGB Interiors</span>
+              <span class="brand__tagline">Interior Concepts &amp; Craft</span>
+            </div>
+          </a>
+        </div>
+
+        <nav id="primary-nav" class="nav--primary" aria-label="Primary navigation">
+          <button
+            class="nav__toggle"
+            aria-expanded="false"
+            aria-controls="nav-menu"
+            aria-label="Toggle navigation menu"
+          >
+            <span class="nav__toggle-bar"></span>
+            <span class="nav__toggle-bar"></span>
+            <span class="nav__toggle-bar"></span>
+          </button>
+
+          <ul id="nav-menu" class="nav__list" role="list">
+            <li class="nav__item">
+              <a href="ngb.html" class="nav__link">Home</a>
+            </li>
+            <li class="nav__item nav__item--active">
+              <a href="ngb.html#furniture" class="nav__link" aria-current="page">Furniture</a>
+            </li>
+            <li class="nav__item">
+              <a href="projects.html" class="nav__link">Projects</a>
+            </li>
+            <li class="nav__item">
+              <a href="interior-design.html" class="nav__link">Interior Design</a>
+            </li>
+            <li class="nav__item">
+              <a href="about.html" class="nav__link">About Us</a>
+            </li>
+            <li class="nav__item nav__item--cta">
+              <a href="contact.html" class="nav__link nav__link--contact">Contact</a>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+    </header>
+
+
+    <main id="main-content" role="main">
+
+      <!-- HERO SECTION -->
+      <section class="furniture-hero">
+        <div class="furniture-hero__background"></div>
+        <div class="furniture-hero__content">
+          <p class="furniture-hero__eyebrow">Handcrafted in Uganda</p>
+          <h1 class="furniture-hero__title">Loading...</h1>
+          <p class="furniture-hero__description">
+            Every piece is built to order. Choose your materials, dimensions, and finishes.
+          </p>
+          <nav class="furniture-hero__nav" aria-label="Breadcrumb">
+            <a href="ngb.html">Home</a>
+            <span>/</span>
+            <a href="ngb.html#furniture">Furniture</a>
+            <span>/</span>
+            <span>Product</span>
+          </nav>
+        </div>
+      </section>
+
+
+      <!-- PRODUCT DETAILS -->
+      <section class="product-detail">
+        <div class="product-detail__container">
+
+          <!-- Product Image -->
+          <div class="product-detail__image-wrapper">
+            <img 
+              src="" 
+              alt="Product" 
+              class="product-detail__main-image"
+              id="main-product-image"
+            />
+          </div>
+
+          <!-- Product Info Sidebar -->
+          <div class="product-detail__sidebar">
+            <p class="product-detail__category">Loading...</p>
+            <h2 class="product-detail__title">Loading...</h2>
+            <p class="product-detail__description">
+              Loading product information...
+            </p>
+
+            <!-- Specifications -->
+            <div class="product-specs">
+              <h3 class="product-specs__title">Specifications</h3>
+              
+              <div class="product-spec product-spec--price">
+                <span class="product-spec__label">Price Range</span>
+                <span id="product-price" class="product-spec__value">-</span>
+              </div>
+
+              <div class="product-spec">
+                <span class="product-spec__label">Materials</span>
+                <span id="product-material" class="product-spec__value">-</span>
+              </div>
+
+              <div class="product-spec">
+                <span class="product-spec__label">Wood Type</span>
+                <span id="product-wood-type" class="product-spec__value">-</span>
+              </div>
+
+              <div class="product-spec">
+                <span class="product-spec__label">Lead Time</span>
+                <span id="product-lead-time" class="product-spec__value">-</span>
+              </div>
+            </div>
+
+            <!-- Customization Form -->
+            <form id="furniture-customize-form" class="customization-form">
+              <h3 class="customization-form__title">Customize Your Piece</h3>
+
+              <div class="form__group">
+                <label for="color-select" class="form__label">Choose Color</label>
+                <select id="color-select" name="color" class="form__select" required>
+                  <option value="">Select a color...</option>
+                </select>
+              </div>
+
+              <div class="form__group">
+                <label for="material-select" class="form__label">Material Option</label>
+                <select id="material-select" name="material" class="form__select" required>
+                  <option value="">Select material...</option>
+                </select>
+              </div>
+
+              <div class="form__group">
+                <label for="size-select" class="form__label">Size / Configuration</label>
+                <select id="size-select" name="size" class="form__select" required>
+                  <option value="">Select size...</option>
+                </select>
+              </div>
+
+              <div class="form__group">
+                <label for="finish-select" class="form__label">Finish Type</label>
+                <select id="finish-select" name="finish" class="form__select" required>
+                  <option value="">Select finish...</option>
+                </select>
+              </div>
+
+              <div class="form__group">
+                <label for="custom-notes" class="form__label">Additional Notes (Optional)</label>
+                <textarea 
+                  id="custom-notes" 
+                  name="notes" 
+                  class="form__textarea"
+                  placeholder="Any special requests, custom dimensions, or questions..."
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn--submit-quote">
+                Request Custom Quote
+              </button>
+            </form>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- RELATED PRODUCTS -->
+      <section class="related-products">
+        <div class="related-products__container">
+          <h2 class="related-products__title">You May Also Like</h2>
+          <div class="related-products__grid">
+            <!-- Related products will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer id="site-footer" class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer__inner">
+
+          <div class="footer__brand">
+            <a href="ngb.html" class="footer__brand-link" aria-label="NGB Interiors — back to top">
+              <img src="../assets/images/gallery/logo.png" alt="NGB Interiors logo" class="footer__logo" width="60" height="60" loading="lazy" />
+              <span class="footer__brand-name">NGB Interiors</span>
+            </a>
+            <p class="footer__brand-description">
+              Interior Concepts &amp; Craft — designing and building beautiful,
+              functional spaces across Uganda and East Africa.
+            </p>
+          </div>
+
+          <nav class="footer__nav" aria-label="Footer navigation">
+            <div class="footer__nav-group">
+              <h3 class="footer__nav-title">Services</h3>
+              <ul class="footer__nav-list">
+                <li><a href="ngb.html#furniture">Custom Furniture</a></li>
+                <li><a href="interior-design.html">Interior Design</a></li>
+                <li><a href="interior-design.html#3d">3D Concepts</a></li>
+                <li><a href="contact.html">Installation</a></li>
+              </ul>
+            </div>
+
+            <div class="footer__nav-group">
+              <h3 class="footer__nav-title">Company</h3>
+              <ul class="footer__nav-list">
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="projects.html">Our Work</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+
+            <div class="footer__nav-group">
+              <h3 class="footer__nav-title">Connect</h3>
+              <ul class="footer__nav-list">
+                <li><a href="tel:+256782042866">+256 782 042 866</a></li>
+                <li><a href="mailto:hello@ngbinteriors.com">hello@ngbinteriors.com</a></li>
+              </ul>
+            </div>
+          </nav>
+
+        </div>
+
+        <div class="footer__bottom">
+          <p class="footer__copyright">
+            &copy; <span id="year">2026</span> NGB Interiors. All rights reserved.
+          </p>
+          <a href="#top" class="footer__back-to-top" aria-label="Back to top of page">Back to top ↑</a>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- Load furniture database and dynamic page loader -->
+    <script src="./scripts/furniture-data.js"></script>
+    <script>
+      // Get product ID from URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+      
+      // Load product data
+      const product = getProductById(productId);
+      
+      if (!product) {
+        // Show error if product not found
+        document.querySelector('main').innerHTML = `
+          <div class="error">
+            <h1 class="error__title">Product Not Found</h1>
+            <p>The product you're looking for doesn't exist.</p>
+            <a href="ngb.html#furniture" class="btn btn--primary">Back to Furniture Gallery</a>
+          </div>
+        `;
+      } else {
+        // Update page title
+        document.title = `${product.title} | NGB Interiors`;
+        
+        // Update hero background
+        document.querySelector('.furniture-hero__background').style.backgroundImage = 
+          `url('${product.image}')`;
+        
+        // Update hero content
+        document.querySelector('.furniture-hero__eyebrow').textContent = 'Handcrafted in Uganda';
+        document.querySelector('.furniture-hero__title').textContent = product.title;
+        document.querySelector('.furniture-hero__description').textContent = 
+          'Every piece is built to order. Choose your materials, dimensions, and finishes.';
+        
+        // Update breadcrumb
+        const breadcrumb = document.querySelector('.furniture-hero__nav');
+        breadcrumb.innerHTML = `
+          <a href="ngb.html">Home</a>
+          <span>/</span>
+          <a href="ngb.html#furniture">Furniture</a>
+          <span>/</span>
+          <span>${product.title}</span>
+        `;
+        
+        // Update main image
+        document.querySelector('.product-detail__main-image').src = product.image;
+        document.querySelector('.product-detail__main-image').alt = product.title;
+        
+        // Update sidebar content
+        document.querySelector('.product-detail__category').textContent = product.categoryDisplay;
+        document.querySelector('.product-detail__title').textContent = product.title;
+        document.querySelector('.product-detail__description').textContent = 
+          product.detailedDescription;
+        
+        // Update specs
+        document.querySelector('#product-price').textContent = product.priceRange;
+        document.querySelector('#product-material').textContent = product.material;
+        document.querySelector('#product-wood-type').textContent = product.woodType;
+        document.querySelector('#product-lead-time').textContent = product.leadTime;
+        
+        // Populate customization dropdowns
+        populateDropdown('color-select', product.customization.colors);
+        populateDropdown('material-select', product.customization.materials);
+        populateDropdown('size-select', product.customization.sizes);
+        populateDropdown('finish-select', product.customization.finishes);
+        
+        // Load related products
+        loadRelatedProducts(product.id);
+      }
+      
+      // Helper: Populate dropdown options
+      function populateDropdown(id, options) {
+        const select = document.getElementById(id);
+        if (!select || !options) return;
+        
+        // Keep first option (placeholder)
+        const firstOption = select.firstElementChild;
+        select.innerHTML = '';
+        select.appendChild(firstOption);
+        
+        // Add options
+        options.forEach(option => {
+          const opt = document.createElement('option');
+          opt.value = option;
+          opt.textContent = option;
+          select.appendChild(opt);
+        });
+      }
+      
+      // Helper: Load related products
+      function loadRelatedProducts(currentId) {
+        const related = getRelatedProducts(currentId, 3);
+        const grid = document.querySelector('.related-products__grid');
+        
+        grid.innerHTML = related.map(item => `
+          <a href="furniture.html?id=${item.id}" class="product-card-compact">
+            <img src="${item.image}" alt="${item.title}" class="product-card-compact__image" />
+            <div class="product-card-compact__content">
+              <h3 class="product-card-compact__title">${item.title}</h3>
+              <p class="product-card-compact__price">${item.priceRange}</p>
+            </div>
+          </a>
+        `).join('');
+      }
+      
+      // Handle form submission
+      document.getElementById('furniture-customize-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const quoteData = {
+          product: product.title,
+          category: product.categoryDisplay,
+          color: formData.get('color'),
+          material: formData.get('material'),
+          size: formData.get('size'),
+          finish: formData.get('finish'),
+          notes: formData.get('notes')
+        };
+        
+        console.log('Quote request:', quoteData);
+        
+        alert(`Thank you for your interest in the ${product.title}!\n\nYour customization request has been received. Our team will contact you within 24 hours with a detailed quote.\n\nEstimated Price Range: ${product.priceRange}`);
+        
+        e.target.reset();
+      });
+      
+      // Mobile menu toggle
+      const navToggle = document.querySelector('.nav__toggle');
+      const navMenu = document.getElementById('nav-menu');
+      
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+          const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+          navToggle.setAttribute('aria-expanded', !isExpanded);
+          navMenu.classList.toggle('nav__list--open');
+        });
+      }
+      
+      // Update footer year
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+  </body>
+</html>

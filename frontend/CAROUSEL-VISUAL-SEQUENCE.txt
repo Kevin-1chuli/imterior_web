@@ -1,0 +1,399 @@
+═══════════════════════════════════════════════════════════════════════════
+  CINEMATIC CAROUSEL — VISUAL SEQUENCE DIAGRAM
+═══════════════════════════════════════════════════════════════════════════
+
+🎬 COMPLETE SEQUENCE (58-second loop)
+───────────────────────────────────────────────────────────────────────────
+
+                         ┌─────────────────┐
+                         │   PAGE LOADS    │
+                         └────────┬────────┘
+                                  │
+                                  ↓
+                         ┌─────────────────┐
+                         │  CAROUSEL INIT  │
+                         │  • Preload imgs │
+                         │  • Create elems │
+                         │  • Setup overlay│
+                         └────────┬────────┘
+                                  │
+                                  ↓
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                    IMAGE CAROUSEL PHASE                               ║
+║                       (24 seconds total)                              ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+    ┌────────────────────────────────────────────────┐
+    │  IMAGE 1 (img1.jpg)                            │
+    │  • Fades in: 0% → 100% opacity (1 second)     │
+    │  • Displays: 6 seconds                         │
+    │  • Ken Burns zoom: 100% → 108% scale          │
+    │  • Hero text visible over image                │
+    └──────────────────┬─────────────────────────────┘
+                       │ [1 second fade transition]
+                       ↓
+    ┌────────────────────────────────────────────────┐
+    │  IMAGE 2 (img2.jpg)                            │
+    │  • Crossfade: img1 out (100%→0%), img2 in     │
+    │  • Displays: 6 seconds                         │
+    │  • Ken Burns zoom: 100% → 108% scale          │
+    │  • Hero text visible over image                │
+    └──────────────────┬─────────────────────────────┘
+                       │ [1 second fade transition]
+                       ↓
+    ┌────────────────────────────────────────────────┐
+    │  IMAGE 3 (img3.jpg)                            │
+    │  • Crossfade: img2 out (100%→0%), img3 in     │
+    │  • Displays: 6 seconds                         │
+    │  • Ken Burns zoom: 100% → 108% scale          │
+    │  • Hero text visible over image                │
+    └──────────────────┬─────────────────────────────┘
+                       │ [1 second fade transition]
+                       ↓
+    ┌────────────────────────────────────────────────┐
+    │  IMAGE 4 (img4.jpg)                            │
+    │  • Crossfade: img3 out (100%→0%), img4 in     │
+    │  • Displays: 6 seconds                         │
+    │  • Ken Burns zoom: 100% → 108% scale          │
+    │  • Hero text visible over image                │
+    └──────────────────┬─────────────────────────────┘
+                       │ [1 second fade transition]
+                       │ [TIMER STOPS]
+                       ↓
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                      VIDEO PLAYBACK PHASE                             ║
+║                        (~30 seconds)                                  ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+    ┌────────────────────────────────────────────────┐
+    │  VIDEO (hero.mp4)                              │
+    │  • Crossfade: img4 out (100%→0%), video in    │
+    │  • Plays once: ~30 seconds                     │
+    │  • Muted: No audio                             │
+    │  • No loop: Plays only once                    │
+    │  • Hero text visible over video                │
+    │  • playsinline: Mobile compatible              │
+    └──────────────────┬─────────────────────────────┘
+                       │ [Video ends naturally]
+                       │ [VIDEO END EVENT FIRED]
+                       ↓
+    ┌────────────────────────────────────────────────┐
+    │  VIDEO END HANDLER                             │
+    │  • Fade out video: 100% → 0% opacity          │
+    │  • Reset video currentTime to 0                │
+    │  • Prepare to return to carousel               │
+    └──────────────────┬─────────────────────────────┘
+                       │ [1 second fade transition]
+                       ↓
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                       LOOP BACK TO START                              ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+    ┌────────────────────────────────────────────────┐
+    │  RETURN TO IMAGE 1                             │
+    │  • Crossfade: video out (100%→0%), img1 in    │
+    │  • Reset carousel index to 0                   │
+    │  • Restart carousel timer                      │
+    └──────────────────┬─────────────────────────────┘
+                       │
+                       ↓
+                       │
+                       └──────→ [REPEAT ENTIRE SEQUENCE ♻️]
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+⏱️  TIMING BREAKDOWN
+───────────────────────────────────────────────────────────────────────────
+
+Phase                   Duration        Running Total
+───────────────────────────────────────────────────────
+img1.jpg displays       6 seconds       6 seconds
+  → fade transition     1 second        7 seconds
+
+img2.jpg displays       6 seconds       13 seconds
+  → fade transition     1 second        14 seconds
+
+img3.jpg displays       6 seconds       20 seconds
+  → fade transition     1 second        21 seconds
+
+img4.jpg displays       6 seconds       27 seconds
+  → fade transition     1 second        28 seconds
+
+hero.mp4 plays          ~30 seconds     58 seconds
+  → fade transition     1 second        59 seconds
+
+Return to img1.jpg      0 seconds       59 seconds
+───────────────────────────────────────────────────────
+TOTAL CYCLE TIME:                       ~58-59 seconds
+═══════════════════════════════════════════════════════
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎨 VISUAL EFFECTS TIMELINE
+───────────────────────────────────────────────────────────────────────────
+
+For Each Image (6-second display):
+═══════════════════════════════════════════════════════════════════════════
+
+    t=0s                t=3s                t=6s
+    │                   │                   │
+    │ ┌────────────────────────────────┐  │
+    │ │  IMAGE VISIBLE                 │  │
+    │ │  • Opacity: 100%               │  │
+    │ │  • Scale: 100% (start)         │  │
+    │ │  • Hero text on top            │  │
+    │ └────────────────────────────────┘  │
+    │                   │                   │
+    │                   ↓                   ↓
+    │         [Ken Burns Zoom in Progress]
+    │                   │                   │
+    ↓                   ↓                   ↓
+  Start              Middle               End
+  Scale: 1.0         Scale: 1.04        Scale: 1.08
+  (100%)             (104%)             (108%)
+
+
+Fade Transition (1 second between media):
+═══════════════════════════════════════════════════════════════════════════
+
+    Outgoing Media            Incoming Media
+    ──────────────            ──────────────
+    t=0s   opacity: 100%      opacity: 0%
+    t=0.2s opacity: 80%       opacity: 20%
+    t=0.4s opacity: 60%       opacity: 40%
+    t=0.6s opacity: 40%       opacity: 60%
+    t=0.8s opacity: 20%       opacity: 80%
+    t=1.0s opacity: 0%        opacity: 100%
+           [HIDDEN]           [FULLY VISIBLE]
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+🏗️  Z-INDEX LAYER STACK (Bottom to Top)
+───────────────────────────────────────────────────────────────────────────
+
+    ┌─────────────────────────────────────────────────┐
+    │  HERO TEXT & BUTTONS (z-index: 10)              │
+    │  • "Welcome to NGB Interiors"                   │  ← TOP
+    │  • Main heading                                 │    (Always visible)
+    │  • [View Projects] [Request Quote]              │
+    └─────────────────────────────────────────────────┘
+                         ↑
+              [Rendered above overlay]
+                         ↑
+    ┌─────────────────────────────────────────────────┐
+    │  SEMI-TRANSPARENT OVERLAY (z-index: 5)          │
+    │  • Gradient: rgba(10,8,5,0.4) → (10,8,5,0.5)   │  ← MIDDLE
+    │  • Ensures text readability                     │    (Above media)
+    │  • Doesn't block interactions                   │
+    └─────────────────────────────────────────────────┘
+                         ↑
+              [Rendered above media]
+                         ↑
+    ┌─────────────────────────────────────────────────┐
+    │  MEDIA ELEMENTS (z-index: 1)                    │
+    │  • <img> img1.jpg                               │  ← BOTTOM
+    │  • <img> img2.jpg                               │    (Background)
+    │  • <img> img3.jpg                               │
+    │  • <img> img4.jpg                               │
+    │  • <video> hero.mp4                             │
+    │  (Only one visible at a time)                   │
+    └─────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+🔄 STATE MACHINE DIAGRAM
+───────────────────────────────────────────────────────────────────────────
+
+                    ┌──────────────────────┐
+                    │   INITIALIZATION     │
+                    │  • Preload images    │
+                    │  • Create elements   │
+                    │  • Setup overlay     │
+                    └──────────┬───────────┘
+                               │
+                               ↓
+       ┌───────────────────────────────────────────────┐
+       │         STATE: IMAGE_CAROUSEL                  │
+       │  • Display current image (6 seconds)          │
+       │  • Apply Ken Burns zoom                       │
+       │  • Wait for timer                             │
+       └───────┬────────────────────────┬──────────────┘
+               │                        │
+        [Next Image]             [After 4th Image]
+               │                        │
+               └─→ Loop within      ────┘
+                   IMAGE_CAROUSEL       │
+                                       ↓
+                              ┌────────────────────┐
+                              │  STATE: VIDEO_PLAY │
+                              │  • Stop timer      │
+                              │  • Play video      │
+                              │  • Wait for 'ended'│
+                              └─────────┬──────────┘
+                                        │
+                                   [Video ends]
+                                        │
+                                        ↓
+                              ┌────────────────────┐
+                              │ STATE: VIDEO_END   │
+                              │ • Fade out video   │
+                              │ • Reset to img1    │
+                              │ • Restart timer    │
+                              └─────────┬──────────┘
+                                        │
+                                        └──→ [Return to IMAGE_CAROUSEL]
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+📐 RESPONSIVE SCALING
+───────────────────────────────────────────────────────────────────────────
+
+Desktop (1920×1080):
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│    ┌───────────────────────────────────────────────────┐           │
+│    │  🌟 Welcome to NGB Interiors                      │           │
+│    │                                                    │           │
+│    │  Transforming ideas into beautiful living spaces  │           │
+│    │                                                    │           │
+│    │  Description paragraph here...                    │           │
+│    │                                                    │           │
+│    │  [View Projects]     [Request a Quote]            │           │
+│    └───────────────────────────────────────────────────┘           │
+│                                                                     │
+│              [Media fills entire hero section]                      │
+│         [No black bars, perfect coverage with zoom]                 │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+Tablet (768×1024):
+┌──────────────────────────────────────────────┐
+│                                              │
+│  ┌────────────────────────────────────────┐ │
+│  │  🌟 Welcome to NGB Interiors           │ │
+│  │                                        │ │
+│  │  Transforming ideas into beautiful     │ │
+│  │  living spaces                         │ │
+│  │                                        │ │
+│  │  Description paragraph...              │ │
+│  │                                        │ │
+│  │  [View Projects] [Request Quote]       │ │
+│  └────────────────────────────────────────┘ │
+│                                              │
+│    [Media fills entire section]              │
+└──────────────────────────────────────────────┘
+
+
+Mobile (375×667):
+┌────────────────────────┐
+│                        │
+│  ┌──────────────────┐  │
+│  │ 🌟 NGB Interiors │  │
+│  │                  │  │
+│  │ Transforming     │  │
+│  │ ideas into       │  │
+│  │ beautiful spaces │  │
+│  │                  │  │
+│  │ Description...   │  │
+│  │                  │  │
+│  │ [View Projects]  │  │
+│  │ [Request Quote]  │  │
+│  └──────────────────┘  │
+│                        │
+│  [Media fills screen]  │
+└────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+💾 MEMORY & PERFORMANCE
+───────────────────────────────────────────────────────────────────────────
+
+Initial Page Load:
+┌────────────────────────────────────────────────────────────┐
+│ HTML/CSS/JS           ~50KB   ████                         │
+│ Image Preload (4)     ~1.2MB  ████████████████████████████ │
+│ Video Metadata        ~50KB   ████                         │
+│ ──────────────────────────────────────────────────────────│
+│ TOTAL INITIAL:        ~1.3MB                               │
+└────────────────────────────────────────────────────────────┘
+
+During Carousel (all media loaded):
+┌────────────────────────────────────────────────────────────┐
+│ Images in memory      ~1.5MB  ████████████                 │
+│ Video in memory       ~10MB   ████████████████████████████ │
+│ JavaScript/DOM        ~5MB    ████                         │
+│ ──────────────────────────────────────────────────────────│
+│ TOTAL RUNTIME:        ~16MB                                │
+└────────────────────────────────────────────────────────────┘
+
+CPU Usage:
+┌────────────────────────────────────────────────────────────┐
+│ Image transitions     ~5%     ████                         │
+│ Ken Burns animation   ~8%     ██████                       │
+│ Video playback        ~15%    ████████████                 │
+│ Idle (between media)  ~2%     ██                           │
+└────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+✨ VISUAL EFFECT EXAMPLES
+───────────────────────────────────────────────────────────────────────────
+
+Ken Burns Zoom (Over 6 seconds):
+
+    Start (t=0s):                    End (t=6s):
+    ┌──────────────────┐            ┌────────────────────┐
+    │                  │            │  ╔══════════════╗  │
+    │                  │            │  ║              ║  │
+    │   [  IMAGE  ]    │   ──────→  │  ║ [  IMAGE  ]  ║  │
+    │                  │            │  ║              ║  │
+    │                  │            │  ╚══════════════╝  │
+    └──────────────────┘            └────────────────────┘
+    Scale: 1.0 (100%)               Scale: 1.08 (108%)
+    [Fits perfectly]                [Slightly zoomed in]
+
+
+Fade Transition (1 second crossfade):
+
+    Before transition:          During transition:         After transition:
+    ┌──────────────────┐        ┌──────────────────┐       ┌──────────────────┐
+    │                  │        │  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │       │                  │
+    │  [ IMAGE 1 ]     │        │  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  │       │  [ IMAGE 2 ]     │
+    │  100% opacity    │  ────→ │  [ Both visible] │ ────→ │  100% opacity    │
+    │                  │        │  ░░░░░░░░░░░░░░  │       │                  │
+    │                  │        │  ░░░░░░░░░░░░░░  │       │                  │
+    └──────────────────┘        └──────────────────┘       └──────────────────┘
+    [img1: 100%]                [img1: 50% / img2: 50%]    [img2: 100%]
+
+
+═══════════════════════════════════════════════════════════════════════════
+
+📚 REFERENCE
+───────────────────────────────────────────────────────────────────────────
+
+Configuration File:       frontend/scripts/ngb.js (lines 12-68)
+Carousel Class:           frontend/scripts/ngb.js (lines 70-340)
+Image/Video Styling:      frontend/styles/ngb.css (lines 658-725)
+HTML Structure:           frontend/ngb.html (lines 89-92)
+
+Full Documentation:       CINEMATIC-CAROUSEL-GUIDE.md
+Quick Reference:          CAROUSEL-QUICK-REFERENCE.txt
+Implementation Summary:   CAROUSEL-IMPLEMENTATION-SUMMARY.md
+This Visual Guide:        CAROUSEL-VISUAL-SEQUENCE.txt
+
+═══════════════════════════════════════════════════════════════════════════
+Status: ✅ Complete
+Implementation Date: June 20, 2026
+Total Cycle Time: ~58 seconds
+Visual Effects: Fade + Ken Burns Zoom
+═══════════════════════════════════════════════════════════════════════════

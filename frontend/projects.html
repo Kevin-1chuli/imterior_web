@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore NGB Interiors' completed projects across Uganda. Residential, commercial, and modern spaces designed and built with precision." />
+  <title>Our Projects | NGB Interiors</title>
+  <link rel="icon" type="image/png" href="../assets/images/gallery/logo.png" />
+  <link rel="stylesheet" href="./styles/ngb.css" />
+  <style>
+    /* Projects page: Grid-based portfolio with before/after reveals */
+    
+    .projects-hero {
+      background: var(--c-black);
+      color: var(--c-white);
+      padding: calc(var(--header-h) + var(--sp-8)) var(--container-pad) var(--sp-10);
+      text-align: center;
+    }
+    
+    .projects-hero__eyebrow {
+      font-family: var(--f-heading);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--c-gold-light);
+      margin-bottom: var(--sp-2);
+    }
+    
+    .projects-hero__title {
+      font-family: var(--f-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: var(--sp-3);
+    }
+    
+    .projects-hero__stats {
+      display: flex;
+      justify-content: center;
+      gap: var(--sp-8);
+      margin-top: var(--sp-6);
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat__number {
+      font-family: var(--f-display);
+      font-size: var(--fs-3xl);
+      font-weight: 700;
+      color: var(--c-gold);
+      display: block;
+    }
+    
+    .stat__label {
+      font-family: var(--f-heading);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-top: var(--sp-1);
+    }
+    
+    /* Project grid: Masonry-style with varied heights */
+    .projects-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--sp-10) var(--container-pad);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: var(--sp-4);
+    }
+    
+    .project {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: var(--c-parchment);
+      transition: transform var(--t-base);
+    }
+    
+    .project:hover {
+      transform: translateY(-8px);
+    }
+    
+    .project__image {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--ease);
+    }
+    
+    .project:hover .project__image {
+      transform: scale(1.05);
+    }
+    
+    .project__content {
+      padding: var(--sp-4);
+    }
+    
+    .project__category {
+      font-family: var(--f-heading);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-bottom: var(--sp-1);
+    }
+    
+    .project__title {
+      font-family: var(--f-display);
+      font-size: var(--fs-lg);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--c-black);
+      margin-bottom: var(--sp-2);
+    }
+    
+    .project__description {
+      font-size: var(--fs-sm);
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--c-mid);
+    }
+    
+    .project__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--f-heading);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-top: var(--sp-2);
+      transition: gap var(--t-fast);
+    }
+    
+    .project__link::after {
+      content: '→';
+      transition: transform var(--t-fast);
+    }
+    
+    .project:hover .project__link {
+      gap: 0.8rem;
+    }
+    
+    /* Material badges */
+    .project__materials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-1);
+      margin-top: var(--sp-2);
+      padding-top: var(--sp-2);
+      border-top: 1px solid rgba(30,30,30,0.1);
+    }
+    
+    .project__material-badge {
+      background: rgba(184,147,74,0.1);
+      color: var(--c-gold);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.7rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      border: 1px solid rgba(184,147,74,0.3);
+    }
+    
+    /* Call to action */
+    .projects-cta {
+      background: linear-gradient(135deg, var(--c-charcoal) 0%, var(--c-black) 100%);
+      color: var(--c-white);
+      padding: var(--sp-12) var(--container-pad);
+      text-align: center;
+    }
+    
+    .projects-cta__title {
+      font-family: var(--f-display);
+      font-size: var(--fs-2xl);
+      font-weight: 600;
+      margin-bottom: var(--sp-3);
+    }
+    
+    .projects-cta__description {
+      font-size: var(--fs-md);
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto var(--sp-5);
+      line-height: 1.7;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    @media (max-width: 768px) {
+      #mobile-menu-toggle {
+        display: block !important;
+      }
+      
+      #main-nav {
+        position: fixed;
+        top: 68px;
+        right: -100%;
+        width: 100%;
+        max-width: 300px;
+        height: calc(100vh - 68px);
+        background: rgba(13,13,13,0.98);
+        backdrop-filter: blur(10px);
+        transition: right 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0,0,0,0.5);
+      }
+      
+      #main-nav.mobile-open {
+        right: 0;
+      }
+      
+      #main-nav ul {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: var(--sp-4) !important;
+        gap: var(--sp-2) !important;
+      }
+      
+      #main-nav ul li {
+        width: 100%;
+      }
+      
+      #main-nav ul li a {
+        display: block;
+        padding: var(--sp-2) 0;
+        width: 100%;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .projects-hero__stats {
+        gap: var(--sp-4);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="site-header" role="banner" style="position: fixed; top: 0; width: 100%; background: rgba(13,13,13,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(184,147,74,0.2); z-index: 1000;">
+    <div class="header__inner container" style="max-width: var(--container-max); margin: 0 auto; padding: var(--sp-2) var(--container-pad); display: flex; justify-content: space-between; align-items: center;">
+      
+      <div class="header__brand">
+        <a href="ngb.html" style="display: flex; align-items: center; gap: var(--sp-2);">
+          <img src="../assets/images/gallery/logo.png" alt="NGB Interiors" style="width: 50px; height: 50px; filter: brightness(0) invert(1);" />
+          <span style="font-family: var(--f-heading); font-weight: 600; font-size: var(--fs-base); color: var(--c-white);">NGB Interiors</span>
+        </a>
+      </div>
+
+      <button id="mobile-menu-toggle" style="display: none; background: none; border: none; color: var(--c-white); font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
+        ☰
+      </button>
+
+      <nav id="main-nav" aria-label="Main navigation">
+        <ul style="display: flex; gap: var(--sp-4); list-style: none; align-items: center;">
+          <li><a href="ngb.html" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: rgba(255,255,255,0.7); font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--c-gold-light)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Home</a></li>
+          <li><a href="ngb.html#furniture" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: rgba(255,255,255,0.7); font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--c-gold-light)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Furniture</a></li>
+          <li><a href="projects.html" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: var(--c-gold-light); font-weight: 600;">Projects</a></li>
+          <li><a href="about.html" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: rgba(255,255,255,0.7); font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--c-gold-light)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">About</a></li>
+          <li><a href="contact.html" class="btn btn--primary" style="font-size: var(--fs-xs); padding: 0.6rem 1.2rem;">Contact</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- Hero -->
+    <section class="projects-hero">
+      <p class="projects-hero__eyebrow">Portfolio</p>
+      <h1 class="projects-hero__title">Spaces We've Transformed</h1>
+      
+      <div class="projects-hero__stats">
+        <div class="stat">
+          <span class="stat__number">200+</span>
+          <span class="stat__label">Projects Completed</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number">8</span>
+          <span class="stat__label">Years Experience</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number">100%</span>
+          <span class="stat__label">Built to Order</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="projects-grid">
+      
+      <article class="project">
+        <img src="/assets/images/projects/living-room.jpg" alt="Modern living room design" class="project__image" />
+        <div class="project__content">
+          <p class="project__category">Kampala • Living Room</p>
+          <h2 class="project__title">Contemporary Living Room</h2>
+          <p class="project__description">Open-plan living space with custom sectional, integrated lighting, and curated art collection.</p>
+          <div class="project__materials">
+            <span class="project__material-badge">Walnut</span>
+            <span class="project__material-badge">Premium Linen</span>
+            <span class="project__material-badge">Handcrafted</span>
+          </div>
+          <a href="#" class="project__link">View Project</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <img src="/assets/images/projects/bedroom.jpg" alt="Serene bedroom design" class="project__image" />
+        <div class="project__content">
+          <p class="project__category">Entebbe • Master Bedroom</p>
+          <h2 class="project__title">Master Bedroom Suite</h2>
+          <p class="project__description">Restful retreat with custom built-in wardrobes, layered textiles, and ambient lighting.</p>
+          <div class="project__materials">
+            <span class="project__material-badge">Oak</span>
+            <span class="project__material-badge">Velvet</span>
+            <span class="project__material-badge">Bespoke</span>
+          </div>
+          <a href="#" class="project__link">View Project</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <img src="/assets/images/projects/office.jpg" alt="Modern office interior" class="project__image" />
+        <div class="project__content">
+          <p class="project__category">Nairobi • Corporate Office</p>
+          <h2 class="project__title">Executive Workspace</h2>
+          <p class="project__description">Productive workspace with custom workstations, acoustic treatment, and natural light optimization. Designed for 15-person team.</p>
+          <div class="project__materials">
+            <span class="project__material-badge">Walnut</span>
+            <span class="project__material-badge">Leather</span>
+            <span class="project__material-badge">Custom Joinery</span>
+          </div>
+          <a href="#" class="project__link">View Project</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <img src="/assets/images/projects/modern-spaces.jpg" alt="Minimalist space" class="project__image" />
+        <div class="project__content">
+          <p class="project__category">Kampala • Studio Apartment</p>
+          <h2 class="project__title">Minimalist Living Space</h2>
+          <p class="project__description">Clean geometry, natural materials, and restrained palette create timeless elegance. Multi-functional furniture design for compact living.</p>
+          <div class="project__materials">
+            <span class="project__material-badge">White Oak</span>
+            <span class="project__material-badge">Linen</span>
+            <span class="project__material-badge">Built-to-Order</span>
+          </div>
+          <a href="#" class="project__link">View Project</a>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="projects-cta">
+      <h2 class="projects-cta__title">Ready to Start Your Project?</h2>
+      <p class="projects-cta__description">
+        Every space begins with a conversation. Tell us about your vision, and we'll show you how to make it real.
+      </p>
+      <a href="contact.html" class="btn btn--primary">Get in Touch</a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--c-charcoal); color: rgba(255,255,255,0.7); padding: var(--sp-6) var(--container-pad); text-align: center; border-top: 1px solid rgba(184,147,74,0.2);">
+    <p style="font-size: var(--fs-sm); margin-bottom: var(--sp-2);">
+      <a href="ngb.html" style="color: var(--c-gold-light); font-weight: 600;">← Back to Home</a>
+    </p>
+    <p style="font-size: var(--fs-xs); color: rgba(255,255,255,0.5);">
+      &copy; <span id="year">2026</span> NGB Interiors. All rights reserved.
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Mobile menu toggle
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const nav = document.getElementById('main-nav');
+    
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('mobile-open');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!toggle.contains(e.target) && !nav.contains(e.target)) {
+        nav.classList.remove('mobile-open');
+      }
+    });
+  </script>
+
+</body>
+</html>
