@@ -1661,6 +1661,24 @@ a.contact__info-value:hover {
     --header-h: 64px;
   }
 
+  /* Header brand adjustments for mobile */
+  .header__inner {
+    padding: var(--sp-2) var(--container-pad);
+  }
+
+  .brand__logo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand__name {
+    font-size: 0.8rem;
+  }
+
+  .brand__tagline {
+    font-size: 0.55rem;
+  }
+
   /* Navigation — full-screen drawer */
   .nav__toggle {
     display: flex;
@@ -1781,8 +1799,17 @@ a.contact__info-value:hover {
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
 
+  .brand__logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand__name {
+    font-size: 0.75rem;
+  }
+
   .brand__tagline {
-    display: none;
+    font-size: 0.5rem;
   }
 
   .hero__eyebrow {
