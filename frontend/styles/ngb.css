@@ -1739,49 +1739,50 @@ a.contact__info-value:hover {
     /* Critical: No transform property to avoid creating new stacking context */
   }
 
-  /* Dropdown menu - elegant blurred glass panel */
+  /* Dropdown menu - premium compact floating panel */
   .nav__list {
     /* Positioning - fixed to viewport, below header */
-    position: fixed; /* Change from absolute to fixed */
-    top: var(--header-h); /* Position below header */
+    position: fixed;
+    top: var(--header-h);
     left: 0;
     right: 0;
     
-    /* Sizing - contained panel with scroll if needed */
+    /* Sizing - compact floating panel (70vh max) */
     height: auto;
-    max-height: calc(100vh - var(--header-h));
+    max-height: 70vh; /* Premium compact size, not full screen */
     overflow-y: auto;
     width: 100%;
     
-    /* Luxury aesthetic - dark blurred glass */
-    background-color: rgba(13, 13, 13, 0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(184, 147, 74, 0.15);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* Luxury aesthetic - dark blurred glass with depth */
+    background-color: rgba(13, 13, 13, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
     
-    /* Layout - generous spacing for touch targets */
+    /* Layout - compact premium spacing */
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 0;
-    padding: var(--sp-3) 0;
+    gap: 0.5rem; /* Tighter spacing between groups */
+    padding: 1rem 0; /* Reduced container padding */
     
-    /* Z-index hierarchy: Must be above hero but below header chrome */
-    z-index: 10001; /* Above hero (auto) but below toggle button (10002) */
+    /* Z-index hierarchy */
+    z-index: 10001;
     
     /* Hidden state */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     
-    /* Smooth animations - fade + slide down */
+    /* Clean slide-down animation: top → bottom */
     transform: translateY(-12px);
     transition: 
-      opacity var(--t-base),
-      visibility var(--t-base),
-      transform var(--t-base);
+      opacity 0.25s ease,
+      visibility 0.25s ease,
+      transform 0.25s ease;
   }
 
   /* Open state - smooth reveal */
@@ -1792,31 +1793,31 @@ a.contact__info-value:hover {
     transform: translateY(0);
   }
 
-  /* Menu items - generous spacing */
+  /* Menu items - compact premium spacing */
   .nav__item {
     text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .nav__item:last-child {
     border-bottom: none;
   }
 
-  /* Links - elegant typography with generous touch targets */
+  /* Links - compact premium typography */
   .nav__link {
     display: block;
     font-family: var(--f-heading);
-    font-size: var(--fs-base);
+    font-size: var(--fs-sm); /* Slightly smaller for compact feel */
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.85);
-    padding: var(--sp-3) var(--container-pad);
+    padding: 0.65rem 1.25rem; /* Compact padding: ~10px vertical, 20px horizontal */
     text-decoration: none;
     transition: 
-      color var(--t-fast),
-      background-color var(--t-fast),
-      padding-left var(--t-fast);
+      color 0.2s ease,
+      background-color 0.2s ease,
+      padding-left 0.2s ease;
     position: relative;
   }
 
@@ -1824,7 +1825,7 @@ a.contact__info-value:hover {
   .nav__link:hover {
     color: var(--c-white);
     background-color: rgba(184, 147, 74, 0.08);
-    padding-left: calc(var(--container-pad) + 8px);
+    padding-left: calc(1.25rem + 6px); /* Subtle 6px slide */
   }
 
   /* Active page indicator */
@@ -1836,13 +1837,13 @@ a.contact__info-value:hover {
   .nav__item--active .nav__link::before {
     content: '';
     position: absolute;
-    left: var(--container-pad);
+    left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 3px;
-    height: 20px;
+    width: 2px;
+    height: 16px;
     background: var(--c-gold);
-    border-radius: 2px;
+    border-radius: 1px;
   }
 
   /* Remove desktop underline effect */
@@ -1850,27 +1851,27 @@ a.contact__info-value:hover {
     display: none;
   }
 
-  /* Contact CTA - prominent gold button */
+  /* Contact CTA - compact premium gold button */
   .nav__link--contact {
-    margin: var(--sp-2) var(--container-pad);
-    padding: var(--sp-3) var(--sp-4);
+    margin: 0.75rem 1.25rem;
+    padding: 0.65rem 1.5rem;
     background-color: var(--c-gold);
     color: var(--c-white);
-    font-size: var(--fs-base);
+    font-size: var(--fs-sm);
     font-weight: 600;
     text-align: center;
     border-radius: var(--radius-sm);
     transition: 
-      background-color var(--t-fast),
-      box-shadow var(--t-fast),
-      transform var(--t-fast);
+      background-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
   }
 
   .nav__link--contact:hover {
     background-color: var(--c-gold-dark);
     box-shadow: var(--shadow-gold);
     transform: translateY(-2px);
-    padding-left: var(--sp-4); /* Override generic hover padding */
+    padding-left: 1.5rem; /* Override generic hover padding */
   }
 
   .nav__item--cta {
