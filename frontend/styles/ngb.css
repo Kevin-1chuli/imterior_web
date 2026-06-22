@@ -1712,7 +1712,7 @@ a.contact__info-value:hover {
   }
 
   /* ========================================================================
-     MOBILE NAVIGATION - Luxury Dropdown with Proper Z-Index Hierarchy
+     MOBILE NAVIGATION - Premium Off-Canvas Drawer System
      ======================================================================== */
 
   /* Hamburger button - visible on mobile */
@@ -1725,94 +1725,141 @@ a.contact__info-value:hover {
     border: none;
     color: inherit;
     position: relative;
-    z-index: 10002; /* Above everything including dropdown */
+    z-index: 10003; /* Above overlay and drawer */
     order: 1;
   }
 
-  /* Navigation container - relative positioning for absolute dropdown */
+  /* Navigation container */
   .nav--primary {
-    position: static; /* Change from relative to static to avoid creating stacking context */
+    position: static;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     order: 1;
-    /* Critical: No transform property to avoid creating new stacking context */
   }
 
-  /* Dropdown menu - premium compact floating panel */
-  .nav__list {
-    /* Positioning - fixed to viewport, below header */
+  /* Full-screen overlay - fades in behind drawer */
+  .nav__overlay {
     position: fixed;
-    top: var(--header-h);
+    top: 0;
     left: 0;
-    right: 0;
-    
-    /* Sizing - compact floating panel (70vh max) */
-    height: auto;
-    max-height: 70vh; /* Premium compact size, not full screen */
-    overflow-y: auto;
     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10001; /* Above page content, below drawer */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  /* Overlay visible when menu is open */
+  .nav--primary.is-open ~ .nav__overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  /* Off-canvas drawer - slides from left */
+  .nav__list {
+    /* Positioning - fixed, full height, left side */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 75vw; /* 75% viewport width */
+    max-width: 320px; /* Cap at 320px for larger screens */
+    height: 100vh;
+    overflow-y: auto;
     
-    /* Luxury aesthetic - dark blurred glass with depth */
+    /* Luxury aesthetic - dark glass with blur */
     background-color: rgba(13, 13, 13, 0.98);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
     
-    /* Layout - compact premium spacing */
+    /* Layout - premium spacing */
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 0.5rem; /* Tighter spacing between groups */
-    padding: 1rem 0; /* Reduced container padding */
+    gap: 0;
+    padding: var(--header-h) 0 2rem 0; /* Top padding = header height */
     
     /* Z-index hierarchy */
-    z-index: 10001;
+    z-index: 10002; /* Above overlay, below hamburger */
     
-    /* Hidden state */
-    opacity: 0;
+    /* Hidden state - off screen to the left */
     visibility: hidden;
-    pointer-events: none;
-    
-    /* Clean slide-down animation: top → bottom */
-    transform: translateY(-12px);
+    transform: translateX(-100%);
     transition: 
-      opacity 0.25s ease,
-      visibility 0.25s ease,
-      transform 0.25s ease;
+      transform 0.35s ease,
+      visibility 0.35s ease;
   }
 
-  /* Open state - smooth reveal */
+  /* Open state - drawer slides in */
   .nav--primary.is-open .nav__list {
-    opacity: 1;
     visibility: visible;
-    pointer-events: all;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
-  /* Menu items - compact premium spacing */
+  /* Menu items - premium spacing with staggered animation */
   .nav__item {
     text-align: left;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: 
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  /* Staggered entrance animation for menu items */
+  .nav--primary.is-open .nav__item:nth-child(1) { 
+    opacity: 1; 
+    transform: translateX(0); 
+    transition-delay: 0.1s; 
+  }
+  .nav--primary.is-open .nav__item:nth-child(2) { 
+    opacity: 1; 
+    transform: translateX(0); 
+    transition-delay: 0.15s; 
+  }
+  .nav--primary.is-open .nav__item:nth-child(3) { 
+    opacity: 1; 
+    transform: translateX(0); 
+    transition-delay: 0.2s; 
+  }
+  .nav--primary.is-open .nav__item:nth-child(4) { 
+    opacity: 1; 
+    transform: translateX(0); 
+    transition-delay: 0.25s; 
+  }
+  .nav--primary.is-open .nav__item:nth-child(5) { 
+    opacity: 1; 
+    transform: translateX(0); 
+    transition-delay: 0.3s; 
+  }
+  .nav--primary.is-open .nav__item:nth-child(6) { 
+    opacity: 1; 
+    transform: translateX(0); 
+    transition-delay: 0.35s; 
   }
 
   .nav__item:last-child {
     border-bottom: none;
   }
 
-  /* Links - compact premium typography */
+  /* Links - luxury typography */
   .nav__link {
     display: block;
     font-family: var(--f-heading);
-    font-size: var(--fs-sm); /* Slightly smaller for compact feel */
+    font-size: var(--fs-base);
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.85);
-    padding: 0.65rem 1.25rem; /* Compact padding: ~10px vertical, 20px horizontal */
+    padding: 1rem 1.5rem;
     text-decoration: none;
     transition: 
       color 0.2s ease,
@@ -1821,14 +1868,14 @@ a.contact__info-value:hover {
     position: relative;
   }
 
-  /* Hover state - subtle gold accent */
+  /* Hover state - gold accent with subtle slide */
   .nav__link:hover {
     color: var(--c-white);
     background-color: rgba(184, 147, 74, 0.08);
-    padding-left: calc(1.25rem + 6px); /* Subtle 6px slide */
+    padding-left: 2rem;
   }
 
-  /* Active page indicator */
+  /* Active page indicator - gold left border */
   .nav__item--active .nav__link {
     color: var(--c-gold-light);
     background-color: rgba(184, 147, 74, 0.05);
@@ -1837,13 +1884,11 @@ a.contact__info-value:hover {
   .nav__item--active .nav__link::before {
     content: '';
     position: absolute;
-    left: 1.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 2px;
-    height: 16px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
     background: var(--c-gold);
-    border-radius: 1px;
   }
 
   /* Remove desktop underline effect */
@@ -1851,10 +1896,10 @@ a.contact__info-value:hover {
     display: none;
   }
 
-  /* Contact CTA - compact premium gold button */
+  /* Contact CTA - premium gold button in drawer */
   .nav__link--contact {
-    margin: 0.75rem 1.25rem;
-    padding: 0.65rem 1.5rem;
+    margin: 1rem 1.5rem;
+    padding: 0.875rem 1.5rem;
     background-color: var(--c-gold);
     color: var(--c-white);
     font-size: var(--fs-sm);
@@ -1876,6 +1921,11 @@ a.contact__info-value:hover {
 
   .nav__item--cta {
     border-bottom: none;
+  }
+
+  /* Prevent body scroll when drawer is open */
+  body.nav-open {
+    overflow: hidden;
   }
 
   /* Hero */

@@ -436,20 +436,21 @@ let heroCinematicCarousel = null;
  * Toggles aria-expanded and menu visibility on hamburger button click
  */
 // ============================================================================
-// 1. MOBILE NAVIGATION - Enhanced with Keyboard Support
+// 1. MOBILE NAVIGATION - Off-Canvas Drawer System
 // ============================================================================
 /**
- * Initialize mobile hamburger menu with:
- * - Toggle open/close functionality
- * - Click outside to close
+ * Initialize mobile off-canvas drawer with:
+ * - Slide-in animation from left
+ * - Overlay backdrop with click-to-close
  * - Keyboard navigation (Escape key)
- * - Link click auto-close
  * - Focus management for accessibility
+ * - Body scroll lock when open
  */
 function initMobileNav() {
   const navToggle = document.querySelector('.nav__toggle');
   const navMenu = document.getElementById('nav-menu');
   const navContainer = document.getElementById('primary-nav');
+  const navOverlay = document.querySelector('.nav__overlay');
   const navLinks = document.querySelectorAll('.nav__link');
 
   if (!navToggle || !navMenu || !navContainer) {
@@ -465,87 +466,114 @@ function initMobileNav() {
   navToggle.dataset.initialized = 'true';
 
   /**
-   * Close menu helper - centralizes all close logic
+   * Close drawer helper
    */
-  function closeMenu() {
+  function closeDrawer() {
     navToggle.setAttribute('aria-expanded', 'false');
     navToggle.classList.remove('is-open');
     navContainer.classList.remove('is-open');
-    // Don't lock body scroll since dropdown is contained
-    document.body.style.overflow = 'auto';
+    document.body.classList.remove('nav-open');
+    
+    // Return focus to toggle button
+    navToggle.focus();
   }
 
   /**
-   * Open menu helper
+   * Open drawer helper
    */
-  function openMenu() {
+  function openDrawer() {
     navToggle.setAttribute('aria-expanded', 'true');
     navToggle.classList.add('is-open');
     navContainer.classList.add('is-open');
-    // Optional: Lock body scroll for better mobile UX
-    // document.body.style.overflow = 'hidden';
+    document.body.classList.add('nav-open');
+    
+    // Focus first link for keyboard navigation
+    const firstLink = navMenu.querySelector('.nav__link');
+    if (firstLink) {
+      setTimeout(() => firstLink.focus(), 400); // After animation
+    }
   }
 
   /**
-   * Toggle menu open/closed on button click
+   * Toggle drawer on button click
    */
   navToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
     
     if (isExpanded) {
-      closeMenu();
-      console.log('Mobile menu closed');
+      closeDrawer();
+      console.log('Drawer closed');
     } else {
-      openMenu();
-      console.log('Mobile menu opened');
-      
-      // Focus first link for keyboard navigation
-      const firstLink = navMenu.querySelector('.nav__link');
-      if (firstLink) {
-        setTimeout(() => firstLink.focus(), 100);
-      }
+      openDrawer();
+      console.log('Drawer opened');
     }
   });
 
   /**
-   * Close menu when a navigation link is clicked
+   * Close drawer when a navigation link is clicked
    */
   navLinks.forEach((link) => {
     link.addEventListener('click', () => {
-      closeMenu();
-      console.log('Mobile menu closed via link click');
+      closeDrawer();
+      console.log('Drawer closed via link click');
     });
   });
 
   /**
-   * Close menu when clicking outside
+   * Close drawer when clicking overlay
    */
-  document.addEventListener('click', (e) => {
-    const isMenuOpen = navContainer.classList.contains('is-open');
-    const isClickInNav = navContainer.contains(e.target) || navToggle.contains(e.target);
-    
-    if (isMenuOpen && !isClickInNav) {
-      closeMenu();
-      console.log('Mobile menu closed via outside click');
-    }
-  });
+  if (navOverlay) {
+    navOverlay.addEventListener('click', () => {
+      const isMenuOpen = navContainer.classList.contains('is-open');
+      if (isMenuOpen) {
+        closeDrawer();
+        console.log('Drawer closed via overlay click');
+      }
+    });
+  }
 
   /**
-   * Keyboard navigation - Escape key closes menu
+   * Keyboard navigation - Escape key closes drawer
    */
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Esc') {
       const isMenuOpen = navContainer.classList.contains('is-open');
       if (isMenuOpen) {
-        closeMenu();
-        navToggle.focus(); // Return focus to toggle button
-        console.log('Mobile menu closed via Escape key');
+        closeDrawer();
+        console.log('Drawer closed via Escape key');
       }
     }
   });
 
-  console.log('Mobile navigation initialized with', navLinks.length, 'links');
+  /**
+   * Focus trap - keep focus inside drawer when open
+   */
+  navMenu.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      const isMenuOpen = navContainer.classList.contains('is-open');
+      if (!isMenuOpen) return;
+
+      const focusableElements = navMenu.querySelectorAll(
+        'a[href], button:not([disabled])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      // Shift + Tab on first element: go to last
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      }
+      // Tab on last element: go to first
+      else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+  });
+
+  console.log('Mobile navigation drawer initialized with', navLinks.length, 'links');
 }
 
 // ============================================================================
