@@ -217,28 +217,53 @@
   }
 }
 
-/* RESPONSIVE GRID LAYOUT (replaces single-row carousel on mobile) */
-/* BASE: Mobile-first 2-column grid */
-.carousel {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Mobile: 2 columns with flexible sizing */
-  gap: 12px; /* Mobile: compact spacing */
-  padding: 0.5rem 0 1.5rem;
-}
-
-/* Tablet: 3 columns */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* RESPONSIVE LAYOUT */
+/* Mobile: Horizontal scroll carousel with snap-to-pair (Airbnb-style) */
+@media (max-width: 767px) {
   .carousel {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Tablet: 3 columns */
-    gap: 0.875rem;
+    display: flex; /* Horizontal carousel on mobile */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding: 0.5rem var(--container-pad) 1.5rem;
+    margin: 0 calc(var(--container-pad) * -1); /* Full-width carousel */
+  }
+  
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Snap to pairs (every 2 cards) */
+  .carousel .product-card:nth-child(odd) {
+    scroll-snap-align: start;
+    margin-left: var(--container-pad); /* First card in pair aligns with container edge */
+  }
+  
+  .carousel .product-card:nth-child(even) {
+    scroll-snap-align: none; /* Second card in pair doesn't snap independently */
   }
 }
 
-/* Desktop: Switch to horizontal flexbox carousel */
+/* Tablet: 3-column grid */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .carousel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Tablet: 3 columns */
+    gap: 0.875rem;
+    padding: 0.5rem 0 1.5rem;
+  }
+}
+
+/* Desktop: Horizontal flexbox carousel */
 @media (min-width: 1024px) {
   .carousel {
     display: flex; /* Desktop: horizontal carousel */
-    grid-template-columns: initial; /* Clear grid columns for flex */
+    flex-wrap: nowrap;
     gap: 1rem;
     overflow-x: auto;
     overflow-y: hidden;
@@ -247,6 +272,7 @@
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     cursor: grab;
+    padding: 0.5rem 0 1.5rem;
   }
   
   .carousel:active {
@@ -270,9 +296,24 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  /* BASE: Grid-friendly sizing (mobile/tablet) */
-  width: auto; /* Let grid control width */
-  flex: none; /* Remove flex sizing for grid layout */
+  flex-shrink: 0; /* Prevent cards from shrinking in flex carousel */
+}
+
+/* Mobile: Paired card sizing for smooth snap-to-pair scrolling */
+@media (max-width: 767px) {
+  .product-card {
+    /* Each card is ~47% of viewport minus padding and gap */
+    width: calc((100vw - (var(--container-pad) * 2) - 12px) / 2);
+    min-width: 160px; /* Minimum card width */
+    max-width: 180px; /* Maximum card width for larger phones */
+  }
+}
+
+/* Tablet: Grid-friendly sizing */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .product-card {
+    width: auto; /* Let grid control width */
+  }
 }
 
 /* Desktop carousel: set fixed width for horizontal scroll */
@@ -412,27 +453,8 @@
   content: '→';
 }
 
-/* Mobile optimizations - 2-column grid layout */
+/* Mobile optimizations - Compact carousel cards */
 @media (max-width: 767px) {
-  /* CRITICAL: Override desktop carousel sizing for mobile grid */
-  .product-card {
-    width: auto !important; /* Override desktop 280px */
-    flex: none !important; /* Remove carousel flex behavior */
-    min-width: 0; /* Allow grid to shrink cards */
-  }
-  
-  /* Ensure images scale properly in grid */
-  .product-card__image-wrapper {
-    aspect-ratio: 1 / 1; /* Enforce square images */
-  }
-  
-  .product-card__image {
-    width: 100%; /* Fill container */
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  
   /* Compact card content for mobile */
   .product-card__content {
     padding: 0.625rem;
@@ -525,4 +547,71 @@
   color: var(--c-mid);
   font-family: var(--f-heading);
   font-size: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. "SEE ALL" CARD (Mobile carousel end card)
+   -------------------------------------------------------------------------- */
+.see-all-card {
+  background: linear-gradient(135deg, var(--c-parchment) 0%, #f5f5f5 100%);
+  border-radius: 12px;
+  border: 2px dashed rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.see-all-card:hover {
+  border-color: var(--c-gold);
+  background: linear-gradient(135deg, #f8f8f8 0%, #fff 100%);
+  transform: scale(1.02);
+}
+
+.see-all-card__icon {
+  font-size: 2rem;
+  color: var(--c-gold);
+  margin-bottom: 0.5rem;
+}
+
+.see-all-card__title {
+  font-family: var(--f-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-black);
+  margin: 0 0 0.25rem 0;
+  text-align: center;
+}
+
+.see-all-card__subtitle {
+  font-family: var(--f-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--c-mid);
+  text-align: center;
+}
+
+/* Mobile: Same size as product cards for consistent carousel */
+@media (max-width: 767px) {
+  .see-all-card {
+    width: calc((100vw - (var(--container-pad) * 2) - 12px) / 2);
+    min-width: 160px;
+    max-width: 180px;
+    min-height: 280px; /* Match approximate product card height */
+    padding: 1rem;
+    scroll-snap-align: start; /* Snap to this card as last item */
+    margin-right: var(--container-pad); /* Last card aligns with container edge */
+  }
+}
+
+/* Tablet & Desktop: Hide see-all card where all items visible */
+@media (min-width: 768px) {
+  .see-all-card {
+    display: none;
+  }
 }

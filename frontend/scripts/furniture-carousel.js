@@ -162,12 +162,15 @@ class FurnitureMarketplace {
   }
 
   /**
-   * Render single carousel section
+   * Render single carousel section with "See All" card on mobile
    */
   renderCarouselSection(category, products) {
     const cards = products
       .map(product => this.renderProductCard(product))
       .join('');
+    
+    // Add "See All" card at the end (mobile only - hidden via CSS on tablet/desktop)
+    const seeAllCard = this.renderSeeAllCard(category);
     
     return `
       <section 
@@ -199,6 +202,7 @@ class FurnitureMarketplace {
             aria-label="${category.displayName} products"
           >
             ${cards}
+            ${seeAllCard}
           </div>
           
           <button 
@@ -255,6 +259,24 @@ class FurnitureMarketplace {
           </div>
         </div>
       </article>
+    `;
+  }
+
+  /**
+   * Render "See All" card for mobile carousel (shown after last product)
+   */
+  renderSeeAllCard(category) {
+    return `
+      <a 
+        href="#category-${category.id}" 
+        class="see-all-card"
+        role="button"
+        aria-label="See all ${category.name} products"
+      >
+        <div class="see-all-card__icon">+</div>
+        <h3 class="see-all-card__title">See All</h3>
+        <p class="see-all-card__subtitle">${category.name}</p>
+      </a>
     `;
   }
 
