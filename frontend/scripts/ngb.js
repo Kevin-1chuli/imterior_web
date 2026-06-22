@@ -733,8 +733,11 @@ function initActiveNavHighlight() {
  * Add 'data-animate' attribute to elements you want to animate
  */
 function initScrollAnimations() {
+  // Select elements for scroll animations
+  // NOTE: .product-card excluded to prevent carousel cards from being hidden
+  // Carousel cards need immediate visibility, not scroll-triggered animations
   const animatedElements = document.querySelectorAll(
-    '.section, .service-card, .project-card, .product-card, .about__inner'
+    '.section, .service-card, .project-card, .about__inner'
   );
 
   if (animatedElements.length === 0) return;
@@ -764,8 +767,7 @@ function initScrollAnimations() {
       }
 
       .service-card,
-      .project-card,
-      .product-card {
+      .project-card {
         opacity: 0;
       }
 
