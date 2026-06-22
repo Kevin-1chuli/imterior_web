@@ -14,9 +14,14 @@ class FurnitureMarketplace {
   constructor(data) {
     console.log('🏪 Furniture Marketplace Init');
     
-    // Data
-    this.data = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : data;
+    // CRITICAL: Robust data initialization
+    this.data = this.initializeData(data);
     console.log('📦 Products loaded:', this.data ? this.data.length : 0);
+    
+    if (!this.data || this.data.length === 0) {
+      console.error('❌ No product data available');
+      return;
+    }
     
     // Category configuration
     this.categories = [
@@ -39,13 +44,41 @@ class FurnitureMarketplace {
     
     this.init();
   }
+  
+  /**
+   * CRITICAL: Robust data initialization
+   */
+  initializeData(fallbackData) {
+    // Try FURNITURE_DATABASE first
+    if (typeof FURNITURE_DATABASE !== 'undefined' && FURNITURE_DATABASE && FURNITURE_DATABASE.length > 0) {
+      console.log('✅ Using FURNITURE_DATABASE');
+      return FURNITURE_DATABASE;
+    }
+    
+    // Fallback to provided data
+    if (fallbackData && fallbackData.length > 0) {
+      console.log('⚠️ Using fallback data');
+      return fallbackData;
+    }
+    
+    console.error('❌ No valid data source found');
+    return [];
+  }
 
   init() {
     console.log('✅ Initializing marketplace...');
-    this.render();
-    this.setupCategoryNavigation();
-    this.setupCarousels();
-    console.log('🎉 Marketplace ready!');
+    
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      this.render();
+      
+      // Setup interactions after render completes
+      requestAnimationFrame(() => {
+        this.setupCategoryNavigation();
+        this.setupCarousels();
+        console.log('🎉 Marketplace ready!');
+      });
+    });
   }
 
   /**
@@ -184,12 +217,15 @@ class FurnitureMarketplace {
   }
 
   /**
-   * Render single product card
+   * Render single product card with image error handling
    */
   renderProductCard(product) {
     // Extract first price number for display
     const priceMatch = product.priceRange ? product.priceRange.match(/[\d,]+/) : null;
     const priceDisplay = priceMatch ? `UGX ${priceMatch[0]}` : 'Custom Quote';
+    
+    // Fallback image
+    const fallbackImage = './assets/images/gallery/logo.png';
     
     return `
       <article 
@@ -202,8 +238,9 @@ class FurnitureMarketplace {
             src="${product.image}" 
             alt="${product.title}"
             class="product-card__image"
-            loading="lazy"
+            loading="eager"
             decoding="async"
+            onerror="this.src='${fallbackImage}'; this.setAttribute('data-error', 'true');"
           />
           <span class="product-card__badge">${product.woodType || product.category}</span>
         </div>
@@ -316,7 +353,7 @@ class FurnitureMarketplace {
    * Setup carousel interactions (arrows + drag/swipe)
    */
   setupCarousels() {
-    // Arrow navigation
+    // Arrow navigation (desktop only)
     document.querySelectorAll('.carousel-arrow').forEach(arrow => {
       arrow.addEventListener('click', (e) => {
         const carouselId = arrow.getAttribute('data-carousel');
@@ -330,10 +367,12 @@ class FurnitureMarketplace {
       });
     });
     
-    // Mouse drag + touch swipe for all carousels
-    document.querySelectorAll('.carousel').forEach(carousel => {
-      this.setupDragScroll(carousel);
-    });
+    // Mouse drag ONLY on desktop (1024px+)
+    if (window.innerWidth >= 1024) {
+      document.querySelectorAll('.carousel').forEach(carousel => {
+        this.setupDragScroll(carousel);
+      });
+    }
     
     // Product card clicks
     document.querySelectorAll('.product-card').forEach(card => {
