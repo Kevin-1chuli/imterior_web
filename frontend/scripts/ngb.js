@@ -512,10 +512,17 @@ function initMobileNav() {
 
   /**
    * Close drawer when a navigation link is clicked
+   * Note: Don't return focus to avoid interrupting navigation
    */
   navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      closeDrawer();
+    link.addEventListener('click', (e) => {
+      // Close drawer UI immediately
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.classList.remove('is-open');
+      navContainer.classList.remove('is-open');
+      document.body.classList.remove('nav-open');
+      
+      // Don't return focus - let navigation proceed naturally
       console.log('Drawer closed via link click');
     });
   });
@@ -1724,7 +1731,22 @@ function initializeApp() {
   
   // Furniture gallery system (non-critical, may not exist on all pages)
   try {
-    furnitureGallery = new FurnitureGallery(furnitureData);
+    const furnitureGrid = document.getElementById('furniture-grid');
+    if (furnitureGrid) {
+      // Check if we're on the homepage (limited featured items) or gallery page (full collection)
+      const isHomepage = document.body.classList.contains('page-home') || window.location.pathname.includes('ngb.html') || window.location.pathname === '/';
+      
+      if (isHomepage) {
+        // Homepage: Show only 3 featured furniture items
+        console.log('Initializing featured furniture for homepage...');
+        const featuredData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE.slice(0, 3) : furnitureData.slice(0, 3);
+        furnitureGallery = new FurnitureGallery(featuredData);
+      } else {
+        // Gallery page: Show full collection with filtering
+        console.log('Initializing full furniture gallery...');
+        furnitureGallery = new FurnitureGallery(furnitureData);
+      }
+    }
   } catch (error) {
     console.error('Furniture gallery not initialized (may not be on this page):', error);
   }
