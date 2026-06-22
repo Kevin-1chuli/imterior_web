@@ -438,24 +438,56 @@ let heroCinematicCarousel = null;
 function initMobileNav() {
   const navToggle = document.querySelector('.nav__toggle');
   const navMenu = document.getElementById('nav-menu');
+  const navContainer = document.getElementById('primary-nav');
   const navLinks = document.querySelectorAll('.nav__link');
 
-  if (!navToggle || !navMenu) return;
+  if (!navToggle || !navMenu || !navContainer) {
+    console.warn('Mobile nav: Required elements not found yet');
+    return;
+  }
+
+  // Prevent double initialization
+  if (navToggle.dataset.initialized === 'true') {
+    console.log('Mobile nav already initialized, skipping');
+    return;
+  }
+  navToggle.dataset.initialized = 'true';
 
   // Toggle menu open/closed on button click
-  navToggle.addEventListener('click', () => {
+  navToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', !isExpanded);
-    navMenu.classList.toggle('nav__list--open');
+    navToggle.classList.toggle('is-open');
+    navContainer.classList.toggle('is-open');
+    document.body.style.overflow = !isExpanded ? 'hidden' : 'auto';
+    console.log('Mobile menu toggled:', !isExpanded ? 'opened' : 'closed');
   });
 
   // Close menu when a navigation link is clicked
   navLinks.forEach((link) => {
     link.addEventListener('click', () => {
       navToggle.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('nav__list--open');
+      navToggle.classList.remove('is-open');
+      navContainer.classList.remove('is-open');
+      document.body.style.overflow = 'auto';
     });
   });
+
+  // Close menu when clicking outside (on document)
+  document.addEventListener('click', (e) => {
+    const isMenuOpen = navContainer.classList.contains('is-open');
+    const isClickInNav = navContainer.contains(e.target) || navToggle.contains(e.target);
+    
+    if (isMenuOpen && !isClickInNav) {
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.classList.remove('is-open');
+      navContainer.classList.remove('is-open');
+      document.body.style.overflow = 'auto';
+    }
+  });
+
+  console.log('Mobile navigation initialized with', navLinks.length, 'links');
 }
 
 // ============================================================================
@@ -1309,7 +1341,9 @@ const categoryNames = {
  */
 class FurnitureGallery {
   constructor(data) {
-    this.data = data;
+    // Use FURNITURE_DATABASE from furniture-data.js if available (has richer product details)
+    // Otherwise fall back to furnitureData from this file
+    this.data = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : data;
     this.currentCategory = 'all';
     this.currentLightboxIndex = 0;
     this.filteredData = [...data];
@@ -1432,6 +1466,12 @@ class FurnitureGallery {
     this.lightboxTitle.textContent = item.title;
     this.lightboxCategory.textContent = item.categoryDisplay || categoryNames[item.category];
     
+    // Update the "View Full Details" link with product ID
+    const detailsLink = document.querySelector('.lightbox__cta');
+    if (detailsLink && item.id) {
+      detailsLink.href = `furniture.html?id=${item.id}`;
+    }
+    
     this.lightbox.classList.add('lightbox--active');
     this.lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -1518,28 +1558,57 @@ let furnitureGallery = null;
  * Activates all interactive features
  */
 function initializeApp() {
+  // CRITICAL: Initialize mobile navigation FIRST before any other features
+  // This ensures the hamburger menu is immediately functional on page load
+  try {
+    initMobileNav();
+    console.log('✓ Mobile navigation initialized');
+  } catch (error) {
+    console.error('Mobile navigation failed to initialize:', error);
+  }
+
+  // Core navigation features (non-blocking)
+  try {
+    initSmoothScroll();
+    initActiveNavHighlight();
+  } catch (error) {
+    console.error('Navigation features error:', error);
+  }
+
   // Hero cinematic carousel system (IMAGES → VIDEO → LOOP)
   // Rotates through 4 images (6 seconds each), then plays video (~30 seconds),
   // then returns to first image and repeats the entire sequence
-  heroCinematicCarousel = new HeroCinematicCarousel(HERO_MEDIA_CONFIG);
+  // Wrapped in try-catch to prevent blocking if it fails
+  try {
+    heroCinematicCarousel = new HeroCinematicCarousel(HERO_MEDIA_CONFIG);
+  } catch (error) {
+    console.error('Hero carousel failed to initialize:', error);
+  }
 
-  // Core navigation features
-  initMobileNav();
-  initSmoothScroll();
-  initActiveNavHighlight();
+  // Animation and visual enhancements (non-critical)
+  try {
+    initScrollAnimations();
+    initPageLoadAnimation();
+    initButtonEnhancements();
+    initScrollToTop();
+  } catch (error) {
+    console.error('Animation features error:', error);
+  }
 
-  // Animation and visual enhancements
-  initScrollAnimations();
-  initPageLoadAnimation();
-  initButtonEnhancements();
-  initScrollToTop();
-
-  // Form and utility
-  initFormValidation();
-  updateFooterYear();
+  // Form and utility (non-critical)
+  try {
+    initFormValidation();
+    updateFooterYear();
+  } catch (error) {
+    console.error('Form/utility features error:', error);
+  }
   
-  // Furniture gallery system
-  furnitureGallery = new FurnitureGallery(furnitureData);
+  // Furniture gallery system (non-critical, may not exist on all pages)
+  try {
+    furnitureGallery = new FurnitureGallery(furnitureData);
+  } catch (error) {
+    console.error('Furniture gallery not initialized (may not be on this page):', error);
+  }
 
   // Log successful initialization (optional, for debugging)
   console.log('NGB Interiors — App initialized successfully');
@@ -1551,3 +1620,31 @@ if (document.readyState === 'loading') {
 } else {
   initializeApp();
 }
+
+// CRITICAL: Early mobile navigation initialization
+// Initialize mobile nav as soon as the script loads to ensure immediate interactivity
+// This runs even before DOMContentLoaded for maximum responsiveness
+(function earlyMobileNavInit() {
+  if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    // DOM is already ready, init immediately
+    try {
+      initMobileNav();
+      console.log('✓ Early mobile navigation initialized');
+    } catch (error) {
+      console.error('Early mobile nav init failed:', error);
+    }
+  } else {
+    // Wait for DOM to be interactive (happens before DOMContentLoaded)
+    document.addEventListener('readystatechange', function onReadyStateChange() {
+      if (document.readyState === 'interactive') {
+        try {
+          initMobileNav();
+          console.log('✓ Early mobile navigation initialized');
+          document.removeEventListener('readystatechange', onReadyStateChange);
+        } catch (error) {
+          console.error('Early mobile nav init failed:', error);
+        }
+      }
+    });
+  }
+})();

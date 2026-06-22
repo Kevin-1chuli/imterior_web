@@ -544,6 +544,7 @@ button {
 /* --- Hamburger (mobile) --- */
 .nav__toggle {
   display: none;
+  visibility: visible;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
@@ -552,6 +553,9 @@ button {
   padding: 4px;
   margin-left: var(--sp-2);
   cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
 }
 
 .nav__toggle-bar {
@@ -1658,30 +1662,55 @@ a.contact__info-value:hover {
 @media (max-width: 768px) {
 
   :root {
-    --header-h: 64px;
+    --header-h: 70px;
   }
 
   /* Header brand adjustments for mobile */
   .header__inner {
     padding: var(--sp-2) var(--container-pad);
+    gap: var(--sp-3);
+    min-height: var(--header-h);
+  }
+
+  .brand__link {
+    gap: var(--sp-1);
+    min-width: 0;
   }
 
   .brand__logo {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .brand__text {
+    flex-shrink: 1;
+    min-width: 0;
   }
 
   .brand__name {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    line-height: 1.1;
+    white-space: normal;
+    word-break: break-word;
   }
 
   .brand__tagline {
-    font-size: 0.55rem;
+    font-size: 0.5rem;
+    line-height: 1;
+    white-space: normal;
+    word-break: break-word;
   }
 
   /* Navigation — full-screen drawer */
   .nav__toggle {
     display: flex;
+    visibility: visible;
+    flex-shrink: 0;
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: inherit;
   }
 
   .nav--primary {
@@ -1698,25 +1727,48 @@ a.contact__info-value:hover {
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--t-base);
+    transition: opacity var(--t-base), visibility var(--t-base);
     z-index: 999;
+    visibility: hidden;
   }
 
   .nav--primary.is-open {
     opacity: 1;
     pointer-events: all;
+    visibility: visible;
   }
 
   .nav__list {
     flex-direction: column;
-    align-items: center;
-    gap: var(--sp-4);
+    align-items: stretch;
+    gap: var(--sp-3);
+    width: 100%;
+    padding: var(--sp-6) var(--container-pad);
+  }
+
+  .nav__item {
+    text-align: center;
   }
 
   .nav__link {
-    font-size: var(--fs-lg);
+    display: block;
+    font-size: var(--fs-md);
     letter-spacing: 0.08em;
-    padding: var(--sp-1) var(--sp-2);
+    padding: var(--sp-2) var(--sp-1);
+    text-decoration: none;
+  }
+
+  .nav__link::after {
+    display: none;
+  }
+
+  .nav__link--contact {
+    padding: var(--sp-2) var(--sp-4);
+    font-size: var(--fs-base);
+    border-radius: var(--radius-sm);
+    display: inline-block;
+    width: auto;
+    align-self: center;
   }
 
   .nav__link--contact {

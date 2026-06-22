@@ -273,9 +273,9 @@
 <body>
 
   <!-- Header -->
-  <header id="site-header" role="banner" style="position: fixed; top: 0; width: 100%; background: rgba(13,13,13,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(184,147,74,0.2); z-index: 1000;">
-    <div class="header__inner container" style="max-width: var(--container-max); margin: 0 auto; padding: var(--sp-2) var(--container-pad); display: flex; justify-content: space-between; align-items: center;">
-      
+  <header id="site-header" role="banner">
+    <div class="header__inner container">
+
       <div class="header__brand">
         <a href="ngb.html" class="brand__link" aria-label="NGB Interiors — go to homepage">
           <img
@@ -292,17 +292,37 @@
         </a>
       </div>
 
-      <button id="mobile-menu-toggle" style="display: none; background: none; border: none; color: var(--c-white); font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
-        ☰
-      </button>
+      <nav id="primary-nav" class="nav--primary" aria-label="Primary navigation">
+        <button
+          class="nav__toggle"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
 
-      <nav id="main-nav" aria-label="Main navigation">
-        <ul style="display: flex; gap: var(--sp-4); list-style: none; align-items: center;">
-          <li><a href="ngb.html" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: rgba(255,255,255,0.7); font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--c-gold-light)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Home</a></li>
-          <li><a href="ngb.html#furniture" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: rgba(255,255,255,0.7); font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--c-gold-light)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Furniture</a></li>
-          <li><a href="projects.html" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: rgba(255,255,255,0.7); font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--c-gold-light)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Projects</a></li>
-          <li><a href="about.html" style="font-family: var(--f-heading); font-size: var(--fs-sm); color: var(--c-gold-light); font-weight: 600;">About</a></li>
-          <li><a href="contact.html" class="btn btn--primary" style="font-size: var(--fs-xs); padding: 0.6rem 1.2rem;">Contact</a></li>
+        <ul id="nav-menu" class="nav__list" role="list">
+          <li class="nav__item">
+            <a href="ngb.html" class="nav__link">Home</a>
+          </li>
+          <li class="nav__item">
+            <a href="furniture-gallery.html" class="nav__link">Furniture</a>
+          </li>
+          <li class="nav__item">
+            <a href="projects.html" class="nav__link">Projects</a>
+          </li>
+          <li class="nav__item">
+            <a href="interior-design.html" class="nav__link">Interior Design</a>
+          </li>
+          <li class="nav__item nav__item--active">
+            <a href="about.html" class="nav__link" aria-current="page">About</a>
+          </li>
+          <li class="nav__item nav__item--cta">
+            <a href="contact.html" class="nav__link nav__link--contact">Contact</a>
+          </li>
         </ul>
       </nav>
 
@@ -448,25 +468,6 @@
       &copy; <span id="year">2026</span> NGB Interiors. All rights reserved.
     </p>
   </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    // Mobile menu toggle
-    const toggle = document.getElementById('mobile-menu-toggle');
-    const nav = document.getElementById('main-nav');
-    
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('mobile-open');
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!toggle.contains(e.target) && !nav.contains(e.target)) {
-        nav.classList.remove('mobile-open');
-      }
-    });
-  </script>
 
 </body>
 </html>
