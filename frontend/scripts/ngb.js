@@ -1744,7 +1744,8 @@ function initializeApp() {
       } else {
         // Gallery page: Show full collection with filtering
         console.log('Initializing full furniture gallery...');
-        furnitureGallery = new FurnitureGallery(furnitureData);
+        const fullData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : furnitureData;
+        furnitureGallery = new FurnitureGallery(fullData);
       }
     }
   } catch (error) {
