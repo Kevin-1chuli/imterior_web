@@ -1735,38 +1735,47 @@ function initializeApp() {
     console.error('Form/utility features error:', error);
   }
   
-  // Furniture gallery system (non-critical, may not exist on all pages)
+  // Furniture marketplace system (new horizontal carousel design)
   try {
-    console.log('🔍 Checking for furniture grid element...');
-    const furnitureGrid = document.getElementById('furniture-grid');
-    console.log('Grid check result:', furnitureGrid ? 'FOUND' : 'Not found (expected on non-gallery pages)');
+    console.log('🔍 Checking for marketplace container...');
+    const marketplaceContainer = document.getElementById('marketplace-container');
+    console.log('Marketplace container:', marketplaceContainer ? 'FOUND' : 'Not found');
     
-    if (furnitureGrid) {
-      // Check if we're on the homepage (limited featured items) or gallery page (full collection)
-      const isHomepage = document.body.classList.contains('page-home') || window.location.pathname.includes('ngb.html') || window.location.pathname === '/';
-      console.log('📍 Page type:', isHomepage ? 'Homepage' : 'Gallery page');
+    if (marketplaceContainer) {
       console.log('📦 FURNITURE_DATABASE available:', typeof FURNITURE_DATABASE !== 'undefined');
-      console.log('🎯 Optimized gallery available:', typeof FurnitureGalleryOptimized !== 'undefined');
+      console.log('🎯 FurnitureMarketplace available:', typeof FurnitureMarketplace !== 'undefined');
       
-      // Use optimized version if available, fallback to standard
-      const GalleryClass = typeof FurnitureGalleryOptimized !== 'undefined' ? FurnitureGalleryOptimized : FurnitureGallery;
-      
-      if (isHomepage) {
-        // Homepage: Show only 3 featured furniture items
-        console.log('🏠 Initializing featured furniture for homepage...');
-        const featuredData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE.slice(0, 3) : furnitureData.slice(0, 3);
-        console.log('📊 Featured items:', featuredData.length);
-        furnitureGallery = new GalleryClass(featuredData);
-      } else {
-        // Gallery page: Show full collection with filtering
-        console.log('🎨 Initializing full furniture gallery (OPTIMIZED)...');
+      // Use new marketplace carousel system
+      if (typeof FurnitureMarketplace !== 'undefined') {
+        console.log('🏪 Initializing Furniture Marketplace (Carousel Design)...');
         const fullData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : furnitureData;
-        console.log('📊 Full collection items:', fullData ? fullData.length : 0);
-        furnitureGallery = new GalleryClass(fullData);
+        console.log('📊 Total products:', fullData ? fullData.length : 0);
+        furnitureGallery = new FurnitureMarketplace(fullData);
+      } else {
+        console.warn('⚠️ FurnitureMarketplace class not found, loading may have failed');
+      }
+    } else {
+      // Fallback: Check for old grid system
+      const furnitureGrid = document.getElementById('furniture-grid');
+      if (furnitureGrid) {
+        console.log('📍 Using legacy gallery system');
+        const isHomepage = document.body.classList.contains('page-home') || window.location.pathname.includes('ngb.html') || window.location.pathname === '/';
+        
+        const GalleryClass = typeof FurnitureGalleryOptimized !== 'undefined' ? FurnitureGalleryOptimized : FurnitureGallery;
+        
+        if (isHomepage) {
+          console.log('🏠 Homepage featured furniture...');
+          const featuredData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE.slice(0, 3) : furnitureData.slice(0, 3);
+          furnitureGallery = new GalleryClass(featuredData);
+        } else {
+          console.log('🎨 Full gallery...');
+          const fullData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : furnitureData;
+          furnitureGallery = new GalleryClass(fullData);
+        }
       }
     }
   } catch (error) {
-    console.error('❌ Furniture gallery error:', error);
+    console.error('❌ Furniture system error:', error);
   }
 
   // Log successful initialization (optional, for debugging)

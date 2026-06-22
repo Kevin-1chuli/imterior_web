@@ -11,7 +11,7 @@
     <title>Furniture Collection | NGB Interiors</title>
     <link rel="icon" type="image/png" href="./assets/images/gallery/logo.png" />
     <link rel="stylesheet" href="./styles/ngb.css" />
-    <link rel="stylesheet" href="./styles/furniture.css" />
+    <link rel="stylesheet" href="./styles/furniture-carousel.css" />
   </head>
 
   <body id="top">
@@ -79,82 +79,28 @@
 
     <main id="main-content" role="main">
 
-      <!-- FURNITURE SHOWCASE GALLERY -->
+      <!-- FURNITURE MARKETPLACE - HORIZONTAL CAROUSEL LAYOUT -->
       <section id="furniture" class="section section--furniture" aria-labelledby="furniture-heading">
-        <div class="container">
+        <div class="container" style="max-width: 1440px;">
 
-          <header class="section__header">
+          <header class="section__header" style="text-align: center; padding: 3rem 1rem 2rem;">
             <p class="section__eyebrow">Our Collection</p>
-            <h2 id="furniture-heading" class="section__heading">Furniture Showcase</h2>
+            <h1 id="furniture-heading" class="section__heading">Furniture Marketplace</h1>
             <p class="section__subheading">
-              Every NGB piece is designed in-house and built to order.
-              Browse by category or request a fully custom quote.
+              Browse by category. Every piece is handcrafted and built to order.
             </p>
           </header>
 
-          <!-- Category Filter Buttons -->
-          <div class="gallery__filters">
-            <button 
-              class="filter-btn filter-btn--active" 
-              data-category="all"
-              aria-label="Show all furniture"
-            >
-              All Furniture
-            </button>
-            <button 
-              class="filter-btn" 
-              data-category="sofas"
-              aria-label="Show sofas and living room furniture"
-            >
-              Sofas & Living Room
-            </button>
-            <button 
-              class="filter-btn" 
-              data-category="dining"
-              aria-label="Show dining furniture"
-            >
-              Dining Furniture
-            </button>
-            <button 
-              class="filter-btn" 
-              data-category="wardrobes"
-              aria-label="Show wardrobes and storage"
-            >
-              Wardrobes & Storage
-            </button>
-            <button 
-              class="filter-btn" 
-              data-category="tables"
-              aria-label="Show coffee tables"
-            >
-              Coffee Tables
-            </button>
-            <button 
-              class="filter-btn" 
-              data-category="beds"
-              aria-label="Show beds and bedroom furniture"
-            >
-              Beds & Bedroom
-            </button>
-          </div>
-
-          <!-- Gallery Grid (populated by JavaScript) -->
-          <div id="furniture-grid" class="gallery__grid" role="list">
-            <!-- Furniture items will be dynamically inserted here by JavaScript -->
-            <div class="gallery__loading">
-              <p>Loading furniture collection...</p>
-            </div>
-          </div>
-
-          <!-- Empty State (shown when no items match filter) -->
-          <div id="empty-state" class="gallery__empty" style="display: none;">
-            <p>No furniture items found in this category.</p>
-            <button class="btn btn--outline" onclick="document.querySelector('[data-category=all]').click()">
-              View All Furniture
-            </button>
-          </div>
-
         </div>
+        
+        <!-- Marketplace Container (Category Nav + Carousels) -->
+        <div id="marketplace-container">
+          <!-- JavaScript will render category navigation and carousels here -->
+          <div style="text-align: center; padding: 4rem 1rem;">
+            <p style="font-family: var(--f-heading); color: var(--c-mid);">Loading furniture collection...</p>
+          </div>
+        </div>
+
       </section>
 
       <!-- LIGHTBOX MODAL (for larger image preview) -->
@@ -279,7 +225,7 @@
     </footer>
 
     <script src="./scripts/furniture-data.js"></script>
-    <script src="./scripts/furniture-gallery-optimized.js"></script>
+    <script src="./scripts/furniture-carousel.js"></script>
     <script src="./scripts/ngb.js"></script>
 
   </body>
