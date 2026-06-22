@@ -1746,19 +1746,23 @@ function initializeApp() {
       const isHomepage = document.body.classList.contains('page-home') || window.location.pathname.includes('ngb.html') || window.location.pathname === '/';
       console.log('📍 Page type:', isHomepage ? 'Homepage' : 'Gallery page');
       console.log('📦 FURNITURE_DATABASE available:', typeof FURNITURE_DATABASE !== 'undefined');
+      console.log('🎯 Optimized gallery available:', typeof FurnitureGalleryOptimized !== 'undefined');
+      
+      // Use optimized version if available, fallback to standard
+      const GalleryClass = typeof FurnitureGalleryOptimized !== 'undefined' ? FurnitureGalleryOptimized : FurnitureGallery;
       
       if (isHomepage) {
         // Homepage: Show only 3 featured furniture items
         console.log('🏠 Initializing featured furniture for homepage...');
         const featuredData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE.slice(0, 3) : furnitureData.slice(0, 3);
         console.log('📊 Featured items:', featuredData.length);
-        furnitureGallery = new FurnitureGallery(featuredData);
+        furnitureGallery = new GalleryClass(featuredData);
       } else {
         // Gallery page: Show full collection with filtering
-        console.log('🎨 Initializing full furniture gallery...');
+        console.log('🎨 Initializing full furniture gallery (OPTIMIZED)...');
         const fullData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : furnitureData;
         console.log('📊 Full collection items:', fullData ? fullData.length : 0);
-        furnitureGallery = new FurnitureGallery(fullData);
+        furnitureGallery = new GalleryClass(fullData);
       }
     }
   } catch (error) {
