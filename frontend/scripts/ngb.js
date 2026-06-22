@@ -512,17 +512,10 @@ function initMobileNav() {
 
   /**
    * Close drawer when a navigation link is clicked
-   * Note: Don't return focus to avoid interrupting navigation
    */
   navLinks.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      // Close drawer UI immediately
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.classList.remove('is-open');
-      navContainer.classList.remove('is-open');
-      document.body.classList.remove('nav-open');
-      
-      // Don't return focus - let navigation proceed naturally
+    link.addEventListener('click', () => {
+      closeDrawer();
       console.log('Drawer closed via link click');
     });
   });
@@ -1467,14 +1460,18 @@ const categoryNames = {
  */
 class FurnitureGallery {
   constructor(data) {
+    console.log('🔧 FurnitureGallery Constructor - START');
     // Use FURNITURE_DATABASE from furniture-data.js if available (has richer product details)
     // Otherwise fall back to furnitureData from this file
     this.data = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : data;
+    console.log('📦 Data source:', typeof FURNITURE_DATABASE !== 'undefined' ? 'FURNITURE_DATABASE' : 'fallback data');
+    console.log('📊 Items loaded:', this.data ? this.data.length : 0);
     this.currentCategory = 'all';
     this.currentLightboxIndex = 0;
-    this.filteredData = [...this.data];
+    this.filteredData = [...data];
     
     this.grid = document.getElementById('furniture-grid');
+    console.log('🎯 Grid element:', this.grid ? 'FOUND' : '❌ NOT FOUND');
     this.filterButtons = document.querySelectorAll('.filter-btn');
     this.emptyState = document.getElementById('empty-state');
     this.lightbox = document.getElementById('lightbox');
@@ -1482,7 +1479,11 @@ class FurnitureGallery {
     this.lightboxTitle = document.getElementById('lightbox-title');
     this.lightboxCategory = document.getElementById('lightbox-category');
     
-    if (!this.grid) return;
+    if (!this.grid) {
+      console.error('❌ CRITICAL: Grid not found - aborting initialization');
+      return;
+    }
+    console.log('✅ All DOM elements ready, calling init()...');
     
     this.init();
   }
@@ -1497,25 +1498,30 @@ class FurnitureGallery {
   }
 
   renderGallery() {
+    console.log('🎨 renderGallery() called - Category:', this.currentCategory);
     this.grid.innerHTML = '';
     
     this.filteredData = this.currentCategory === 'all' 
       ? [...this.data]
       : this.data.filter(item => item.category === this.currentCategory);
     
+    console.log('📊 Filtered items:', this.filteredData.length);
+    
     if (this.filteredData.length === 0) {
+      console.warn('⚠️ No items to display - showing empty state');
       this.emptyState.style.display = 'flex';
       return;
     } else {
       this.emptyState.style.display = 'none';
     }
     
+    console.log('🏗️ Creating', this.filteredData.length, 'product cards...');
     this.filteredData.forEach((item, index) => {
       const card = this.createFurnitureCard(item, index);
       this.grid.appendChild(card);
     });
     
-    console.log(`Rendered ${this.filteredData.length} items (category: ${this.currentCategory})`);
+    console.log(`✅ Rendered ${this.filteredData.length} items (category: ${this.currentCategory})`);
   }
 
   createFurnitureCard(item, index) {
@@ -1731,25 +1737,32 @@ function initializeApp() {
   
   // Furniture gallery system (non-critical, may not exist on all pages)
   try {
+    console.log('🔍 Checking for furniture grid element...');
     const furnitureGrid = document.getElementById('furniture-grid');
+    console.log('Grid check result:', furnitureGrid ? 'FOUND' : 'Not found (expected on non-gallery pages)');
+    
     if (furnitureGrid) {
       // Check if we're on the homepage (limited featured items) or gallery page (full collection)
       const isHomepage = document.body.classList.contains('page-home') || window.location.pathname.includes('ngb.html') || window.location.pathname === '/';
+      console.log('📍 Page type:', isHomepage ? 'Homepage' : 'Gallery page');
+      console.log('📦 FURNITURE_DATABASE available:', typeof FURNITURE_DATABASE !== 'undefined');
       
       if (isHomepage) {
         // Homepage: Show only 3 featured furniture items
-        console.log('Initializing featured furniture for homepage...');
+        console.log('🏠 Initializing featured furniture for homepage...');
         const featuredData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE.slice(0, 3) : furnitureData.slice(0, 3);
+        console.log('📊 Featured items:', featuredData.length);
         furnitureGallery = new FurnitureGallery(featuredData);
       } else {
         // Gallery page: Show full collection with filtering
-        console.log('Initializing full furniture gallery...');
+        console.log('🎨 Initializing full furniture gallery...');
         const fullData = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : furnitureData;
+        console.log('📊 Full collection items:', fullData ? fullData.length : 0);
         furnitureGallery = new FurnitureGallery(fullData);
       }
     }
   } catch (error) {
-    console.error('Furniture gallery not initialized (may not be on this page):', error);
+    console.error('❌ Furniture gallery error:', error);
   }
 
   // Log successful initialization (optional, for debugging)
