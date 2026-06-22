@@ -1670,6 +1670,13 @@ a.contact__info-value:hover {
     padding: var(--sp-2) var(--container-pad);
     gap: var(--sp-3);
     min-height: var(--header-h);
+    flex-direction: row;
+  }
+
+  /* Move brand to the right of hamburger */
+  .header__brand {
+    order: 2;
+    flex-grow: 1;
   }
 
   .brand__link {
@@ -1707,12 +1714,14 @@ a.contact__info-value:hover {
     display: flex;
     visibility: visible;
     flex-shrink: 0;
-    margin-left: auto;
+    margin-left: 0;
+    margin-right: auto;
     background: none;
     border: none;
     color: inherit;
     position: relative;
     z-index: 1001;
+    order: 1;
   }
 
   .nav--primary {
@@ -1720,7 +1729,8 @@ a.contact__info-value:hover {
     position: static;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    order: 1;
   }
 
   .nav__list {
