@@ -491,6 +491,39 @@ function initMobileNav() {
 }
 
 // ============================================================================
+// FIX #4: BFCache Reset Handler
+// ============================================================================
+/**
+ * Reset navigation state when page is restored from BFCache
+ * (browser back/forward button or page restore)
+ */
+function resetMobileNavState() {
+  const navToggle = document.querySelector('.nav__toggle');
+  const navContainer = document.getElementById('primary-nav');
+  
+  if (navToggle && navContainer) {
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.classList.remove('is-open');
+    navContainer.classList.remove('is-open');
+    document.body.style.overflow = 'auto';
+    console.log('Mobile nav state reset (BFCache restore)');
+  }
+}
+
+// Listen for page restore from BFCache
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    // Page was restored from BFCache
+    resetMobileNavState();
+  }
+});
+
+// Listen for popstate (browser back/forward)
+window.addEventListener('popstate', () => {
+  resetMobileNavState();
+});
+
+// ============================================================================
 // 2. SMOOTH SCROLLING FOR NAVIGATION LINKS & ACTION BUTTONS
 // ============================================================================
 /**

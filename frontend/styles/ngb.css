@@ -1676,7 +1676,8 @@ a.contact__info-value:hover {
   /* Move brand to the right of hamburger */
   .header__brand {
     order: 2;
-    flex-grow: 1;
+    flex-grow: 0;  /* FIX: Don't expand */
+    margin-left: var(--sp-2);  /* FIX: Fixed spacing from hamburger */
   }
 
   .brand__link {
@@ -1715,7 +1716,7 @@ a.contact__info-value:hover {
     visibility: visible;
     flex-shrink: 0;
     margin-left: 0;
-    margin-right: auto;
+    /* FIX #1: Remove margin-right auto to prevent alignment issues */
     background: none;
     border: none;
     color: inherit;
@@ -1725,8 +1726,8 @@ a.contact__info-value:hover {
   }
 
   .nav--primary {
-    /* Keep nav container in normal flow - don't hide it */
-    position: static;
+    /* FIX #3: Relative positioning to contain absolute dropdown */
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -1734,22 +1735,24 @@ a.contact__info-value:hover {
   }
 
   .nav__list {
-    /* The nav list becomes the full-screen overlay */
-    position: fixed;
-    top: var(--header-h);
+    /* FIX #3: Dropdown menu instead of full-screen overlay */
+    position: absolute;
+    top: 100%;  /* Position directly below header */
     left: 0;
     right: 0;
-    bottom: 0;
+    height: auto;  /* Auto height instead of fixed bottom */
+    max-height: calc(100vh - var(--header-h));  /* Prevent overflow */
+    overflow-y: auto;  /* Scroll if needed */
     background-color: rgba(13, 13, 13, 0.98);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: center;
-    gap: var(--sp-3);
+    justify-content: flex-start;  /* Start from top instead of center */
+    gap: var(--sp-2);  /* Slightly smaller gap for dropdown */
     width: 100%;
-    padding: var(--sp-6) var(--container-pad);
+    padding: var(--sp-4) var(--container-pad);  /* Less padding for dropdown */
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
@@ -1764,14 +1767,14 @@ a.contact__info-value:hover {
   }
 
   .nav__item {
-    text-align: center;
+    text-align: left;  /* FIX #3: Left align for dropdown style */
   }
 
   .nav__link {
     display: block;
-    font-size: var(--fs-md);
+    font-size: var(--fs-base);  /* FIX #3: Smaller font for dropdown */
     letter-spacing: 0.08em;
-    padding: var(--sp-2) var(--sp-1);
+    padding: var(--sp-2) var(--sp-3);  /* FIX #3: More horizontal padding */
     text-decoration: none;
   }
 
