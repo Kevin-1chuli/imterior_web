@@ -564,10 +564,13 @@ button {
   height: 1.5px;
   background-color: var(--c-white);
   border-radius: 1px;
-  transition: transform var(--t-base), opacity var(--t-base);
+  /* FIX ISSUE #2: Remove transition to prevent X transformation animation */
+  /* transition: transform var(--t-base), opacity var(--t-base); */
 }
 
-/* Open state — JS adds .is-open to the button */
+/* FIX ISSUE #2: Remove hamburger-to-X transformation - keep icon static */
+/* These rules are commented out to prevent the visual morphing while preserving toggle functionality */
+/*
 .nav__toggle.is-open .nav__toggle-bar:nth-child(1) {
   transform: translateY(6.5px) rotate(45deg);
 }
@@ -578,6 +581,7 @@ button {
 .nav__toggle.is-open .nav__toggle-bar:nth-child(3) {
   transform: translateY(-6.5px) rotate(-45deg);
 }
+*/
 
 
 /* --------------------------------------------------------------------------
@@ -1757,7 +1761,7 @@ a.contact__info-value:hover {
     pointer-events: none;
     visibility: hidden;
     transition: opacity var(--t-base), visibility var(--t-base);
-    z-index: 999;
+    z-index: 1002; /* FIX ISSUE #1: Higher than header (1000) and toggle (1001) to appear above hero */
   }
 
   .nav--primary.is-open .nav__list {
