@@ -556,6 +556,17 @@ button {
   background: none;
   border: none;
   color: inherit;
+  /* Smooth hover transition */
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+
+/* Subtle hover effect - no shape changes */
+.nav__toggle:hover {
+  opacity: 0.8;
+}
+
+.nav__toggle:active {
+  transform: scale(0.95);
 }
 
 .nav__toggle-bar {
@@ -564,24 +575,10 @@ button {
   height: 1.5px;
   background-color: var(--c-white);
   border-radius: 1px;
-  /* FIX ISSUE #2: Remove transition to prevent X transformation animation */
-  /* transition: transform var(--t-base), opacity var(--t-base); */
+  /* Static bars - no transformation */
 }
 
-/* FIX ISSUE #2: Remove hamburger-to-X transformation - keep icon static */
-/* These rules are commented out to prevent the visual morphing while preserving toggle functionality */
-/*
-.nav__toggle.is-open .nav__toggle-bar:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
-}
-.nav__toggle.is-open .nav__toggle-bar:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.nav__toggle.is-open .nav__toggle-bar:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
-}
-*/
+/* REMOVED: All hamburger-to-X transformation rules to keep icon static */
 
 
 /* --------------------------------------------------------------------------
@@ -1714,90 +1711,170 @@ a.contact__info-value:hover {
     word-break: break-word;
   }
 
-  /* Navigation — full-screen drawer */
+  /* ========================================================================
+     MOBILE NAVIGATION - Luxury Dropdown with Proper Z-Index Hierarchy
+     ======================================================================== */
+
+  /* Hamburger button - visible on mobile */
   .nav__toggle {
     display: flex;
     visibility: visible;
     flex-shrink: 0;
     margin-left: 0;
-    /* FIX #1: Remove margin-right auto to prevent alignment issues */
     background: none;
     border: none;
     color: inherit;
     position: relative;
-    z-index: 1001;
+    z-index: 10002; /* Above everything including dropdown */
     order: 1;
   }
 
+  /* Navigation container - relative positioning for absolute dropdown */
   .nav--primary {
-    /* FIX #3: Relative positioning to contain absolute dropdown */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     order: 1;
+    /* Critical: No transform property to avoid creating new stacking context */
   }
 
+  /* Dropdown menu - elegant blurred glass panel */
   .nav__list {
-    /* FIX #3: Dropdown menu instead of full-screen overlay */
+    /* Positioning - directly below header */
     position: absolute;
-    top: 100%;  /* Position directly below header */
+    top: 100%;
     left: 0;
     right: 0;
-    height: auto;  /* Auto height instead of fixed bottom */
-    max-height: calc(100vh - var(--header-h));  /* Prevent overflow */
-    overflow-y: auto;  /* Scroll if needed */
-    background-color: rgba(13, 13, 13, 0.98);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    
+    /* Sizing - contained panel with scroll if needed */
+    height: auto;
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+    width: 100%;
+    
+    /* Luxury aesthetic - dark blurred glass */
+    background-color: rgba(13, 13, 13, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(184, 147, 74, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    
+    /* Layout - generous spacing for touch targets */
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: flex-start;  /* Start from top instead of center */
-    gap: var(--sp-2);  /* Slightly smaller gap for dropdown */
-    width: 100%;
-    padding: var(--sp-4) var(--container-pad);  /* Less padding for dropdown */
+    justify-content: flex-start;
+    gap: 0;
+    padding: var(--sp-3) 0;
+    
+    /* Z-index hierarchy: Must be above hero but below header chrome */
+    z-index: 10001; /* Above hero (auto) but below toggle button (10002) */
+    
+    /* Hidden state */
     opacity: 0;
-    pointer-events: none;
     visibility: hidden;
-    transition: opacity var(--t-base), visibility var(--t-base);
-    z-index: 1002; /* FIX ISSUE #1: Higher than header (1000) and toggle (1001) to appear above hero */
+    pointer-events: none;
+    
+    /* Smooth animations - fade + slide down */
+    transform: translateY(-12px);
+    transition: 
+      opacity var(--t-base),
+      visibility var(--t-base),
+      transform var(--t-base);
   }
 
+  /* Open state - smooth reveal */
   .nav--primary.is-open .nav__list {
     opacity: 1;
-    pointer-events: all;
     visibility: visible;
+    pointer-events: all;
+    transform: translateY(0);
   }
 
+  /* Menu items - generous spacing */
   .nav__item {
-    text-align: left;  /* FIX #3: Left align for dropdown style */
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
+  .nav__item:last-child {
+    border-bottom: none;
+  }
+
+  /* Links - elegant typography with generous touch targets */
   .nav__link {
     display: block;
-    font-size: var(--fs-base);  /* FIX #3: Smaller font for dropdown */
+    font-family: var(--f-heading);
+    font-size: var(--fs-base);
+    font-weight: 500;
     letter-spacing: 0.08em;
-    padding: var(--sp-2) var(--sp-3);  /* FIX #3: More horizontal padding */
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    padding: var(--sp-3) var(--container-pad);
     text-decoration: none;
+    transition: 
+      color var(--t-fast),
+      background-color var(--t-fast),
+      padding-left var(--t-fast);
+    position: relative;
   }
 
+  /* Hover state - subtle gold accent */
+  .nav__link:hover {
+    color: var(--c-white);
+    background-color: rgba(184, 147, 74, 0.08);
+    padding-left: calc(var(--container-pad) + 8px);
+  }
+
+  /* Active page indicator */
+  .nav__item--active .nav__link {
+    color: var(--c-gold-light);
+    background-color: rgba(184, 147, 74, 0.05);
+  }
+
+  .nav__item--active .nav__link::before {
+    content: '';
+    position: absolute;
+    left: var(--container-pad);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--c-gold);
+    border-radius: 2px;
+  }
+
+  /* Remove desktop underline effect */
   .nav__link::after {
     display: none;
   }
 
+  /* Contact CTA - prominent gold button */
   .nav__link--contact {
-    padding: var(--sp-2) var(--sp-4);
+    margin: var(--sp-2) var(--container-pad);
+    padding: var(--sp-3) var(--sp-4);
+    background-color: var(--c-gold);
+    color: var(--c-white);
     font-size: var(--fs-base);
+    font-weight: 600;
+    text-align: center;
     border-radius: var(--radius-sm);
-    display: inline-block;
-    width: auto;
-    align-self: center;
+    transition: 
+      background-color var(--t-fast),
+      box-shadow var(--t-fast),
+      transform var(--t-fast);
   }
 
-  .nav__link--contact {
-    padding: var(--sp-2) var(--sp-5);
-    font-size: var(--fs-base);
+  .nav__link--contact:hover {
+    background-color: var(--c-gold-dark);
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-2px);
+    padding-left: var(--sp-4); /* Override generic hover padding */
+  }
+
+  .nav__item--cta {
+    border-bottom: none;
   }
 
   /* Hero */

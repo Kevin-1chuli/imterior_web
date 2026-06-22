@@ -435,6 +435,17 @@ let heroCinematicCarousel = null;
  * Manages mobile menu open/close functionality
  * Toggles aria-expanded and menu visibility on hamburger button click
  */
+// ============================================================================
+// 1. MOBILE NAVIGATION - Enhanced with Keyboard Support
+// ============================================================================
+/**
+ * Initialize mobile hamburger menu with:
+ * - Toggle open/close functionality
+ * - Click outside to close
+ * - Keyboard navigation (Escape key)
+ * - Link click auto-close
+ * - Focus management for accessibility
+ */
 function initMobileNav() {
   const navToggle = document.querySelector('.nav__toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -453,37 +464,84 @@ function initMobileNav() {
   }
   navToggle.dataset.initialized = 'true';
 
-  // Toggle menu open/closed on button click
+  /**
+   * Close menu helper - centralizes all close logic
+   */
+  function closeMenu() {
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.classList.remove('is-open');
+    navContainer.classList.remove('is-open');
+    // Don't lock body scroll since dropdown is contained
+    document.body.style.overflow = 'auto';
+  }
+
+  /**
+   * Open menu helper
+   */
+  function openMenu() {
+    navToggle.setAttribute('aria-expanded', 'true');
+    navToggle.classList.add('is-open');
+    navContainer.classList.add('is-open');
+    // Optional: Lock body scroll for better mobile UX
+    // document.body.style.overflow = 'hidden';
+  }
+
+  /**
+   * Toggle menu open/closed on button click
+   */
   navToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', !isExpanded);
-    navToggle.classList.toggle('is-open');
-    navContainer.classList.toggle('is-open');
-    document.body.style.overflow = !isExpanded ? 'hidden' : 'auto';
-    console.log('Mobile menu toggled:', !isExpanded ? 'opened' : 'closed');
+    
+    if (isExpanded) {
+      closeMenu();
+      console.log('Mobile menu closed');
+    } else {
+      openMenu();
+      console.log('Mobile menu opened');
+      
+      // Focus first link for keyboard navigation
+      const firstLink = navMenu.querySelector('.nav__link');
+      if (firstLink) {
+        setTimeout(() => firstLink.focus(), 100);
+      }
+    }
   });
 
-  // Close menu when a navigation link is clicked
+  /**
+   * Close menu when a navigation link is clicked
+   */
   navLinks.forEach((link) => {
     link.addEventListener('click', () => {
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.classList.remove('is-open');
-      navContainer.classList.remove('is-open');
-      document.body.style.overflow = 'auto';
+      closeMenu();
+      console.log('Mobile menu closed via link click');
     });
   });
 
-  // Close menu when clicking outside (on document)
+  /**
+   * Close menu when clicking outside
+   */
   document.addEventListener('click', (e) => {
     const isMenuOpen = navContainer.classList.contains('is-open');
     const isClickInNav = navContainer.contains(e.target) || navToggle.contains(e.target);
     
     if (isMenuOpen && !isClickInNav) {
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.classList.remove('is-open');
-      navContainer.classList.remove('is-open');
-      document.body.style.overflow = 'auto';
+      closeMenu();
+      console.log('Mobile menu closed via outside click');
+    }
+  });
+
+  /**
+   * Keyboard navigation - Escape key closes menu
+   */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      const isMenuOpen = navContainer.classList.contains('is-open');
+      if (isMenuOpen) {
+        closeMenu();
+        navToggle.focus(); // Return focus to toggle button
+        console.log('Mobile menu closed via Escape key');
+      }
     }
   });
 
@@ -491,7 +549,7 @@ function initMobileNav() {
 }
 
 // ============================================================================
-// FIX #4: BFCache Reset Handler
+// BFCache Reset Handler - Ensures Clean State on Browser Navigation
 // ============================================================================
 /**
  * Reset navigation state when page is restored from BFCache
