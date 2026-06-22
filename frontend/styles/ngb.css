@@ -1711,9 +1711,20 @@ a.contact__info-value:hover {
     background: none;
     border: none;
     color: inherit;
+    position: relative;
+    z-index: 1001;
   }
 
   .nav--primary {
+    /* Keep nav container in normal flow - don't hide it */
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .nav__list {
+    /* The nav list becomes the full-screen overlay */
     position: fixed;
     top: var(--header-h);
     left: 0;
@@ -1723,27 +1734,23 @@ a.contact__info-value:hover {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--t-base), visibility var(--t-base);
-    z-index: 999;
-    visibility: hidden;
-  }
-
-  .nav--primary.is-open {
-    opacity: 1;
-    pointer-events: all;
-    visibility: visible;
-  }
-
-  .nav__list {
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
     gap: var(--sp-3);
     width: 100%;
     padding: var(--sp-6) var(--container-pad);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity var(--t-base), visibility var(--t-base);
+    z-index: 999;
+  }
+
+  .nav--primary.is-open .nav__list {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
   }
 
   .nav__item {
