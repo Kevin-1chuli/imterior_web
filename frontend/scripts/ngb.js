@@ -1472,7 +1472,7 @@ class FurnitureGallery {
     this.data = (typeof FURNITURE_DATABASE !== 'undefined') ? FURNITURE_DATABASE : data;
     this.currentCategory = 'all';
     this.currentLightboxIndex = 0;
-    this.filteredData = [...data];
+    this.filteredData = [...this.data];
     
     this.grid = document.getElementById('furniture-grid');
     this.filterButtons = document.querySelectorAll('.filter-btn');
