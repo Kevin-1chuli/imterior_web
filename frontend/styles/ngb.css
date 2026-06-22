@@ -1731,7 +1731,7 @@ a.contact__info-value:hover {
 
   /* Navigation container - relative positioning for absolute dropdown */
   .nav--primary {
-    position: relative;
+    position: static; /* Change from relative to static to avoid creating stacking context */
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -1741,9 +1741,9 @@ a.contact__info-value:hover {
 
   /* Dropdown menu - elegant blurred glass panel */
   .nav__list {
-    /* Positioning - directly below header */
-    position: absolute;
-    top: 100%;
+    /* Positioning - fixed to viewport, below header */
+    position: fixed; /* Change from absolute to fixed */
+    top: var(--header-h); /* Position below header */
     left: 0;
     right: 0;
     
