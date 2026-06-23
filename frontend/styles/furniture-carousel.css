@@ -132,10 +132,26 @@
 .carousel-section__header {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 2rem var(--container-pad) 1rem;
+  padding: 1.5rem var(--container-pad) 0.875rem; /* Reduced top padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* First category section - even tighter spacing */
+.carousel-section:first-of-type .carousel-section__header {
+  padding-top: 0.75rem;
+}
+
+/* Mobile: Adjust header spacing */
+@media (max-width: 767px) {
+  .carousel-section__header {
+    padding: 1.25rem var(--container-pad) 0.75rem;
+  }
+  
+  .carousel-section:first-of-type .carousel-section__header {
+    padding-top: 0.5rem;
+  }
 }
 
 .carousel-section__title {
@@ -159,6 +175,49 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 var(--container-pad);
+}
+
+/* Mobile swipe indicator (subtle hint that carousel scrolls) */
+@media (max-width: 767px) {
+  .carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    right: var(--container-pad);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 40%);
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Show indicator only when carousel is scrollable and not at end */
+  .carousel-wrapper:not(.carousel-wrapper--at-end)::after {
+    opacity: 1;
+  }
+  
+  /* Arrow icon in the gradient */
+  .carousel-wrapper::before {
+    content: '›';
+    position: absolute;
+    right: calc(var(--container-pad) + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--c-mid);
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .carousel-wrapper:not(.carousel-wrapper--at-end)::before {
+    opacity: 0.6;
+  }
 }
 
 .carousel-arrow {
@@ -613,5 +672,107 @@
 @media (min-width: 768px) {
   .see-all-card {
     display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. FURNITURE SEARCH BAR (Mobile-friendly)
+   -------------------------------------------------------------------------- */
+.furniture-search {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  padding: 0 var(--container-pad);
+}
+
+.furniture-search__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.furniture-search__icon {
+  position: absolute;
+  left: 1rem;
+  width: 20px;
+  height: 20px;
+  color: var(--c-mid);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.furniture-search__input {
+  width: 100%;
+  padding: 0.875rem 3rem 0.875rem 3rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  font-family: var(--f-body);
+  font-size: 0.9375rem;
+  color: var(--c-black);
+  background: var(--c-white);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.furniture-search__input::placeholder {
+  color: var(--c-mid);
+}
+
+.furniture-search__input:focus {
+  border-color: var(--c-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.furniture-search__clear {
+  position: absolute;
+  right: 1rem;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--c-mid);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.furniture-search__clear:hover {
+  color: var(--c-black);
+}
+
+.furniture-search__clear svg {
+  width: 16px;
+  height: 16px;
+}
+
+.furniture-search__results {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-family: var(--f-heading);
+  font-size: 0.875rem;
+  color: var(--c-mid);
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .furniture-search {
+    margin-bottom: 1.5rem;
+  }
+  
+  .furniture-search__input {
+    font-size: 0.875rem;
+    padding: 0.75rem 2.75rem 0.75rem 2.75rem;
+  }
+  
+  .furniture-search__icon {
+    left: 0.875rem;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .furniture-search__clear {
+    right: 0.875rem;
   }
 }

@@ -524,14 +524,23 @@ function initMobileNav() {
    * Close drawer when clicking overlay
    */
   if (navOverlay) {
-    navOverlay.addEventListener('click', () => {
-      const isMenuOpen = navContainer.classList.contains('is-open');
-      if (isMenuOpen) {
-        closeDrawer();
-        console.log('Drawer closed via overlay click');
-      }
+    navOverlay.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      closeDrawer();
+      console.log('Drawer closed via overlay click');
     });
   }
+  
+  /**
+   * Close drawer when clicking outside menu on mobile
+   */
+  document.addEventListener('click', (e) => {
+    const isMenuOpen = navContainer.classList.contains('is-open');
+    if (isMenuOpen && !navContainer.contains(e.target) && e.target !== navToggle) {
+      closeDrawer();
+      console.log('Drawer closed via outside click');
+    }
+  });
 
   /**
    * Keyboard navigation - Escape key closes drawer

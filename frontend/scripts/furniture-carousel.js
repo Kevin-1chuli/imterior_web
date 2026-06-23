@@ -403,6 +403,130 @@ class FurnitureMarketplace {
         window.location.href = `furniture.html?id=${productId}`;
       });
     });
+    
+    // Setup search functionality (furniture page only)
+    this.setupSearch();
+    
+    // Setup swipe indicators for mobile
+    this.setupSwipeIndicators();
+  }
+  
+  /**
+   * Setup swipe indicators (mobile only)
+   */
+  setupSwipeIndicators() {
+    if (window.innerWidth >= 768) return; // Desktop/tablet only
+    
+    const carousels = document.querySelectorAll('.carousel');
+    
+    carousels.forEach(carousel => {
+      const wrapper = carousel.closest('.carousel-wrapper');
+      if (!wrapper) return;
+      
+      // Check if carousel is scrollable
+      const isScrollable = carousel.scrollWidth > carousel.clientWidth;
+      
+      if (!isScrollable) {
+        wrapper.classList.add('carousel-wrapper--at-end');
+        return;
+      }
+      
+      // Hide indicator when scrolled to end
+      carousel.addEventListener('scroll', () => {
+        const isAtEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10;
+        
+        if (isAtEnd) {
+          wrapper.classList.add('carousel-wrapper--at-end');
+        } else {
+          wrapper.classList.remove('carousel-wrapper--at-end');
+        }
+      });
+    });
+  }
+  
+  /**
+   * Setup furniture search functionality
+   */
+  setupSearch() {
+    const searchInput = document.getElementById('furniture-search-input');
+    const clearBtn = document.getElementById('search-clear-btn');
+    const resultsCount = document.getElementById('search-results-count');
+    
+    if (!searchInput) return; // Not on furniture page
+    
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      const query = e.target.value.trim().toLowerCase();
+      
+      // Show/hide clear button
+      clearBtn.style.display = query ? 'flex' : 'none';
+      
+      // Debounce search
+      searchTimeout = setTimeout(() => {
+        this.filterProducts(query);
+      }, 300);
+    });
+    
+    // Clear search
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      clearBtn.style.display = 'none';
+      resultsCount.style.display = 'none';
+      this.filterProducts('');
+      searchInput.focus();
+    });
+  }
+  
+  /**
+   * Filter products based on search query
+   */
+  filterProducts(query) {
+    const sections = document.querySelectorAll('.carousel-section');
+    const resultsCount = document.getElementById('search-results-count');
+    let visibleCount = 0;
+    let totalCount = 0;
+    
+    sections.forEach(section => {
+      const cards = section.querySelectorAll('.product-card');
+      let sectionHasMatches = false;
+      
+      cards.forEach(card => {
+        totalCount++;
+        const title = card.querySelector('.product-card__title')?.textContent.toLowerCase() || '';
+        const description = card.querySelector('.product-card__description')?.textContent.toLowerCase() || '';
+        const badge = card.querySelector('.product-card__badge')?.textContent.toLowerCase() || '';
+        
+        const matches = !query || 
+          title.includes(query) || 
+          description.includes(query) || 
+          badge.includes(query);
+        
+        if (matches) {
+          card.style.display = '';
+          sectionHasMatches = true;
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show/hide entire section based on matches
+      if (sectionHasMatches || !query) {
+        section.style.display = '';
+      } else {
+        section.style.display = 'none';
+      }
+    });
+    
+    // Update results count
+    if (query) {
+      resultsCount.textContent = `Found ${visibleCount} of ${totalCount} products`;
+      resultsCount.style.display = 'block';
+    } else {
+      resultsCount.style.display = 'none';
+    }
   }
 
   /**

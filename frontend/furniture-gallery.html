@@ -83,13 +83,44 @@
       <section id="furniture" class="section section--furniture" aria-labelledby="furniture-heading">
         <div class="container" style="max-width: 1440px;">
 
-          <header class="section__header" style="text-align: center; padding: 3rem 1rem 2rem;">
+          <header class="section__header" style="text-align: center; padding: 3rem 1rem 1rem;">
             <p class="section__eyebrow">Our Collection</p>
             <h1 id="furniture-heading" class="section__heading">Furniture Marketplace</h1>
             <p class="section__subheading">
               Browse by category. Every piece is handcrafted and built to order.
             </p>
           </header>
+          
+          <!-- Search Bar (Mobile-friendly) -->
+          <div class="furniture-search">
+            <div class="furniture-search__wrapper">
+              <svg class="furniture-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input 
+                type="search" 
+                id="furniture-search-input"
+                class="furniture-search__input"
+                placeholder="Search furniture (e.g., sofa, bed, table...)"
+                aria-label="Search furniture products"
+                autocomplete="off"
+              />
+              <button 
+                type="button" 
+                class="furniture-search__clear" 
+                id="search-clear-btn"
+                aria-label="Clear search"
+                style="display: none;"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div id="search-results-count" class="furniture-search__results" style="display: none;"></div>
+          </div>
 
         </div>
         
