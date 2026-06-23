@@ -1,0 +1,106 @@
+.categoryHeader {
+  background: linear-gradient(135deg, rgba(13, 13, 13, 0.9) 0%, rgba(30, 30, 30, 0.8) 100%),
+    url('/images/category-header.jpg') center/cover no-repeat;
+  color: var(--c-white);
+  text-align: center;
+  padding: var(--sp-10) var(--sp-4) var(--sp-8);
+  margin-bottom: var(--sp-8);
+}
+
+.categoryTitle {
+  font-family: var(--f-display);
+  font-size: clamp(var(--fs-2xl), 4vw, var(--fs-3xl));
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.categorySubtitle {
+  font-size: var(--fs-md);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+}
+
+@media (max-width: 768px) {
+  .categoryHeader {
+    padding: var(--sp-6) var(--sp-3) var(--sp-5);
+    margin-bottom: var(--sp-5);
+  }
+
+  .productsGrid {
+    display: flex;
+    gap: var(--sp-3);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .productsGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .productsGrid > * {
+    flex: 0 0 85vw;
+    min-width: 85vw;
+    scroll-snap-align: start;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .productsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--f-heading);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-gold);
+  margin-bottom: var(--sp-4);
+  transition: all var(--t-fast);
+}
+
+.backLink:hover {
+  gap: var(--sp-2);
+  color: var(--c-gold-dark);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--sp-10) var(--sp-4);
+}
+
+.emptyStateIcon {
+  font-size: 4rem;
+  margin-bottom: var(--sp-3);
+  color: var(--c-muted);
+}
+
+.emptyStateText {
+  font-size: var(--fs-lg);
+  color: var(--c-mid);
+  margin-bottom: var(--sp-4);
+}

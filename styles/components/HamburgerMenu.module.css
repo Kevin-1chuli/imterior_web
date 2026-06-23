@@ -1,0 +1,131 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--t-base), visibility var(--t-base);
+}
+
+.overlayActive {
+  opacity: 1;
+  visibility: visible;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background-color: var(--c-white);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform var(--t-base);
+  box-shadow: var(--shadow-lg);
+}
+
+.menuActive {
+  transform: translateX(0);
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-4) var(--sp-3);
+  border-bottom: 1px solid var(--c-cream);
+  background-color: var(--c-charcoal);
+}
+
+.menuTitle {
+  font-family: var(--f-heading);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-white);
+}
+
+.closeButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--c-white);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--t-fast), color var(--t-fast);
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+  color: var(--c-gold);
+}
+
+.menuNav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-2) 0;
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-3);
+  font-family: var(--f-heading);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--c-charcoal);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all var(--t-fast);
+}
+
+.menuLink:hover {
+  background-color: var(--c-cream);
+  border-left-color: var(--c-gold);
+  color: var(--c-black);
+}
+
+.menuLink:active {
+  background-color: var(--c-gold);
+  color: var(--c-white);
+}
+
+.menuFooter {
+  padding: var(--sp-3);
+  border-top: 1px solid var(--c-cream);
+  text-align: center;
+  background-color: var(--c-cream);
+}
+
+.footerText {
+  font-family: var(--f-heading);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.footerSubtext {
+  font-size: var(--fs-xs);
+  font-weight: 300;
+  color: var(--c-gold);
+  letter-spacing: 0.08em;
+}
