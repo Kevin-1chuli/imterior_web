@@ -268,10 +268,11 @@ class FurnitureMarketplace {
   renderSeeAllCard(category) {
     return `
       <a 
-        href="#category-${category.id}" 
+        href="furniture-gallery.html#${category.id}" 
         class="see-all-card"
         role="button"
         aria-label="See all ${category.name} products"
+        data-category="${category.id}"
       >
         <div class="see-all-card__icon">+</div>
         <h3 class="see-all-card__title">See All</h3>
@@ -297,6 +298,24 @@ class FurnitureMarketplace {
         const categoryId = button.getAttribute('data-category');
         this.scrollToCategory(categoryId);
         this.setActiveCategory(button);
+      });
+    });
+    
+    // "See All" card clicks - scroll to category section
+    const seeAllCards = document.querySelectorAll('.see-all-card');
+    seeAllCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        const categoryId = card.getAttribute('data-category');
+        if (categoryId) {
+          e.preventDefault(); // Prevent default anchor behavior
+          this.scrollToCategory(categoryId);
+          
+          // Also activate the category button in nav
+          const categoryButton = document.querySelector(`.category-nav__item[data-category="${categoryId}"]`);
+          if (categoryButton) {
+            this.setActiveCategory(categoryButton);
+          }
+        }
       });
     });
     

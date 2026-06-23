@@ -617,6 +617,7 @@
 
     <!-- Load furniture database and dynamic page loader -->
     <script src="./scripts/furniture-data.js"></script>
+    <script src="./scripts/ngb.js"></script>
     <script>
       // Get product ID from URL parameter
       const urlParams = new URLSearchParams(window.location.search);
@@ -740,18 +741,6 @@
         
         e.target.reset();
       });
-      
-      // Mobile menu toggle
-      const navToggle = document.querySelector('.nav__toggle');
-      const navMenu = document.getElementById('nav-menu');
-      
-      if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-          const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-          navToggle.setAttribute('aria-expanded', !isExpanded);
-          navMenu.classList.toggle('nav__list--open');
-        });
-      }
       
       // Update footer year
       document.getElementById('year').textContent = new Date().getFullYear();
