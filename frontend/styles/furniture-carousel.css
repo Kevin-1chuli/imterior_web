@@ -160,6 +160,23 @@
   font-weight: 600;
   color: var(--c-black);
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carousel-section__title::after {
+  content: '→';
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.2);
+  display: none; /* Hidden by default, shown on mobile */
+}
+
+@media (max-width: 767px) {
+  .carousel-section__title::after {
+    display: inline;
+  }
 }
 
 .carousel-section__count {
@@ -199,48 +216,20 @@
     opacity: 1;
   }
   
-  /* Enhanced swipe indicator with text label (Mobile only) */
-  .carousel-wrapper::after {
-    content: 'Swipe to explore →';
+  /* Minimal swipe indicator - Airbnb style (Mobile only) */
+  .carousel-wrapper::before {
+    content: '→';
     position: absolute;
-    right: 4rem;
+    right: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
-    font-family: var(--f-body);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--c-charcoal);
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.25);
     pointer-events: none;
     z-index: 6;
     opacity: 0;
     transition: opacity 0.3s ease;
-    white-space: nowrap;
-  }
-  
-  .carousel-wrapper:not(.carousel-wrapper--at-end)::after {
-    opacity: 1;
-  }
-  
-  /* Enhanced arrow icon with subtle pulse */
-  .carousel-wrapper::before {
-    content: '›';
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2.5rem;
-    font-weight: 300;
-    color: var(--c-gold);
-    pointer-events: none;
-    z-index: 7;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    animation: swipePulse 2s ease-in-out infinite;
   }
   
   .carousel-wrapper:not(.carousel-wrapper--at-end)::before {
@@ -248,15 +237,13 @@
   }
 }
 
-/* Subtle pulse animation for swipe indicator */
+/* Minimal swipe indicator animation - subtle fade only */
 @keyframes swipePulse {
   0%, 100% {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.6;
-    transform: translateY(-50%) translateX(8px);
+    opacity: 1;
   }
 }
 

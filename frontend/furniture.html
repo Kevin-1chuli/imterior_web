@@ -137,6 +137,137 @@
         margin-bottom: 2rem;
       }
 
+      /* Quick specs - horizontal layout */
+      .product-specs--quick {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .product-specs--quick .product-spec {
+        flex-direction: column;
+        padding: 0;
+        border: none;
+        text-align: center;
+      }
+
+      .product-specs--quick .product-spec__label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-specs--quick .product-spec__value {
+        text-align: center;
+        max-width: 100%;
+        font-size: 1rem;
+      }
+
+      /* Primary Actions */
+      .product-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn--primary-action {
+        flex: 1;
+        padding: 1rem;
+        background: #d4af37;
+        color: #0a0a0a;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn--primary-action:hover {
+        background: #e5c048;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+      }
+
+      .btn--secondary-action {
+        flex: 1;
+        padding: 1rem;
+        background: transparent;
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn--secondary-action:hover {
+        border-color: #d4af37;
+        color: #d4af37;
+      }
+
+      /* Description Wrapper */
+      .product-detail__description-wrapper {
+        margin-bottom: 2rem;
+      }
+
+      .product-detail__description {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* Details Toggle */
+      .product-details-toggle {
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1.5rem;
+      }
+
+      .product-details-summary {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: #d4af37;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .product-details-summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .product-details-summary::before {
+        content: '+';
+        font-size: 1.25rem;
+        transition: transform 0.2s;
+      }
+
+      details[open] .product-details-summary::before {
+        transform: rotate(45deg);
+      }
+
+      .product-specs--full {
+        margin-top: 1rem;
+        padding: 0;
+        background: transparent;
+        border: none;
+      }
+
       .product-specs__title {
         font-size: 1.25rem;
         font-weight: 600;
@@ -346,6 +477,15 @@
           font-size: 2rem;
         }
 
+        .product-specs--quick {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .product-actions {
+          flex-direction: column;
+        }
+
         .product-spec {
           flex-direction: column;
           gap: 0.5rem;
@@ -462,37 +602,42 @@
           <div class="product-detail__sidebar">
             <p class="product-detail__category">Loading...</p>
             <h2 class="product-detail__title">Loading...</h2>
-            <p class="product-detail__description">
-              Loading product information...
-            </p>
 
-            <!-- Specifications -->
-            <div class="product-specs">
-              <h3 class="product-specs__title">Specifications</h3>
-              
+            <!-- Key Specs - Quick Scan -->
+            <div class="product-specs product-specs--quick">
+              <div class="product-spec">
+                <span class="product-spec__label">Material</span>
+                <span id="product-material-quick" class="product-spec__value">-</span>
+              </div>
               <div class="product-spec product-spec--price">
-                <span class="product-spec__label">Price Range</span>
-                <span id="product-price" class="product-spec__value">-</span>
+                <span class="product-spec__label">Price</span>
+                <span id="product-price-quick" class="product-spec__value">-</span>
               </div>
-
-              <div class="product-spec">
-                <span class="product-spec__label">Materials</span>
-                <span id="product-material" class="product-spec__value">-</span>
-              </div>
-
-              <div class="product-spec">
-                <span class="product-spec__label">Wood Type</span>
-                <span id="product-wood-type" class="product-spec__value">-</span>
-              </div>
-
               <div class="product-spec">
                 <span class="product-spec__label">Lead Time</span>
-                <span id="product-lead-time" class="product-spec__value">-</span>
+                <span id="product-lead-time-quick" class="product-spec__value">-</span>
               </div>
             </div>
 
-            <!-- Customization Form -->
-            <form id="furniture-customize-form" class="customization-form">
+            <!-- Primary CTAs -->
+            <div class="product-actions">
+              <button id="customize-btn" class="btn--primary-action">
+                Customize Your Piece
+              </button>
+              <a href="contact.html" class="btn--secondary-action">
+                Request A Quote
+              </a>
+            </div>
+
+            <!-- Product Description (Below CTAs) -->
+            <div class="product-detail__description-wrapper">
+              <p id="product-description" class="product-detail__description">
+                Loading product information...
+              </p>
+            </div>
+
+            <!-- Customization Form (Initially Hidden) -->
+            <form id="furniture-customize-form" class="customization-form" style="display: none;">
               <h3 class="customization-form__title">Customize Your Piece</h3>
 
               <div class="form__group">
@@ -537,6 +682,29 @@
                 Request Custom Quote
               </button>
             </form>
+
+            <!-- Additional Details (Expandable) -->
+            <details class="product-details-toggle">
+              <summary class="product-details-summary">Full Specifications</summary>
+              <div class="product-specs product-specs--full">
+                <div class="product-spec">
+                  <span class="product-spec__label">Wood Type</span>
+                  <span id="product-wood-type" class="product-spec__value">-</span>
+                </div>
+                <div class="product-spec">
+                  <span class="product-spec__label">Materials</span>
+                  <span id="product-material" class="product-spec__value">-</span>
+                </div>
+                <div class="product-spec">
+                  <span class="product-spec__label">Price Range</span>
+                  <span id="product-price" class="product-spec__value">-</span>
+                </div>
+                <div class="product-spec">
+                  <span class="product-spec__label">Lead Time</span>
+                  <span id="product-lead-time" class="product-spec__value">-</span>
+                </div>
+              </div>
+            </details>
 
           </div>
 
@@ -666,10 +834,15 @@
         // Update sidebar content
         document.querySelector('.product-detail__category').textContent = product.categoryDisplay;
         document.querySelector('.product-detail__title').textContent = product.title;
-        document.querySelector('.product-detail__description').textContent = 
+        document.querySelector('#product-description').textContent = 
           product.detailedDescription;
         
-        // Update specs
+        // Update quick specs (top)
+        document.querySelector('#product-material-quick').textContent = product.material;
+        document.querySelector('#product-price-quick').textContent = product.priceRange;
+        document.querySelector('#product-lead-time-quick').textContent = product.leadTime;
+        
+        // Update full specs (expandable)
         document.querySelector('#product-price').textContent = product.priceRange;
         document.querySelector('#product-material').textContent = product.material;
         document.querySelector('#product-wood-type').textContent = product.woodType;
@@ -680,6 +853,19 @@
         populateDropdown('material-select', product.customization.materials);
         populateDropdown('size-select', product.customization.sizes);
         populateDropdown('finish-select', product.customization.finishes);
+        
+        // Handle Customize button
+        document.getElementById('customize-btn').addEventListener('click', function() {
+          const form = document.getElementById('furniture-customize-form');
+          if (form.style.display === 'none') {
+            form.style.display = 'block';
+            this.textContent = 'Hide Customization';
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            form.style.display = 'none';
+            this.textContent = 'Customize Your Piece';
+          }
+        });
         
         // Load related products
         loadRelatedProducts(product.id);
