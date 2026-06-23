@@ -182,12 +182,12 @@
   .carousel-wrapper::after {
     content: '';
     position: absolute;
-    right: var(--container-pad);
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 40%);
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0.95) 100%);
     pointer-events: none;
     z-index: 5;
     opacity: 0;
@@ -199,24 +199,38 @@
     opacity: 1;
   }
   
-  /* Arrow icon in the gradient */
+  /* Enhanced arrow icon with subtle pulse */
   .carousel-wrapper::before {
     content: '›';
     position: absolute;
-    right: calc(var(--container-pad) + 8px);
+    right: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 300;
-    color: var(--c-mid);
+    color: var(--c-charcoal);
     pointer-events: none;
     z-index: 6;
     opacity: 0;
     transition: opacity 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: swipePulse 2s ease-in-out infinite;
   }
   
   .carousel-wrapper:not(.carousel-wrapper--at-end)::before {
-    opacity: 0.6;
+    opacity: 0.85;
+  }
+}
+
+/* Subtle pulse animation for swipe indicator */
+@keyframes swipePulse {
+  0%, 100% {
+    opacity: 0.85;
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(4px);
   }
 }
 
