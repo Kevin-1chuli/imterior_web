@@ -2367,8 +2367,11 @@ a.contact__info-value:hover {
 /* Mobile: More compact cards */
 @media (max-width: 768px) {
   .path-card {
-    padding: 1.25rem 1rem;
+    padding: 1.5rem 1rem;
     border-radius: 12px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -2505,7 +2508,9 @@ a.contact__info-value:hover {
 /* Mobile: Smaller CTA */
 @media (max-width: 768px) {
   .path-card__cta {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
+    padding: 0.5rem 0;
+    margin-top: auto;
   }
 }
 
