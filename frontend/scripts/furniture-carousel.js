@@ -76,6 +76,7 @@ class FurnitureMarketplace {
       requestAnimationFrame(() => {
         this.setupCategoryNavigation();
         this.setupCarousels();
+        this.handleCategoryFiltering(); // Handle URL hash for category filtering
         console.log('🎉 Marketplace ready!');
       });
     });
@@ -619,6 +620,64 @@ class FurnitureMarketplace {
       const walk = (touchStartX - touchX);
       carousel.scrollLeft = touchScrollLeft + walk;
     }, { passive: true });
+  }
+  
+  /**
+   * Handle category filtering via URL hash
+   * When user navigates with #category-id in URL, automatically:
+   * 1. Scroll to that category
+   * 2. Highlight the category in navigation
+   * 3. Provide enhanced browsing focus
+   */
+  handleCategoryFiltering() {
+    // Check URL hash on page load
+    const hash = window.location.hash.substring(1); // Remove # prefix
+    
+    if (hash) {
+      // Check if hash matches a category ID
+      const matchingCategory = this.categories.find(cat => cat.id === hash);
+      
+      if (matchingCategory) {
+        console.log(`📌 Category filter detected: ${hash}`);
+        
+        // Wait for page to fully render, then scroll to category
+        setTimeout(() => {
+          this.scrollToCategory(hash);
+          
+          // Activate the category button
+          const categoryButton = document.querySelector(`.category-nav__item[data-category="${hash}"]`);
+          if (categoryButton) {
+            this.setActiveCategory(categoryButton);
+          }
+          
+          // Add visual emphasis to the filtered category
+          const section = document.getElementById(`category-${hash}`);
+          if (section) {
+            section.classList.add('carousel-section--highlighted');
+            
+            // Remove highlight after animation
+            setTimeout(() => {
+              section.classList.remove('carousel-section--highlighted');
+            }, 2000);
+          }
+        }, 500);
+      }
+    }
+    
+    // Listen for hash changes (when user clicks "See All" or back button)
+    window.addEventListener('hashchange', () => {
+      const newHash = window.location.hash.substring(1);
+      const matchingCategory = this.categories.find(cat => cat.id === newHash);
+      
+      if (matchingCategory) {
+        this.scrollToCategory(newHash);
+        
+        const categoryButton = document.querySelector(`.category-nav__item[data-category="${newHash}"]`);
+        if (categoryButton) {
+          this.setActiveCategory(categoryButton);
+        }
+      }
+    });
   }
 }
 

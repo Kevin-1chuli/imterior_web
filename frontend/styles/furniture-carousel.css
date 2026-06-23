@@ -199,6 +199,32 @@
     opacity: 1;
   }
   
+  /* Enhanced swipe indicator with text label (Mobile only) */
+  .carousel-wrapper::after {
+    content: 'Swipe to explore →';
+    position: absolute;
+    right: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--f-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--c-charcoal);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .carousel-wrapper:not(.carousel-wrapper--at-end)::after {
+    opacity: 1;
+  }
+  
   /* Enhanced arrow icon with subtle pulse */
   .carousel-wrapper::before {
     content: '›';
@@ -206,31 +232,31 @@
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 300;
-    color: var(--c-charcoal);
+    color: var(--c-gold);
     pointer-events: none;
-    z-index: 6;
+    z-index: 7;
     opacity: 0;
     transition: opacity 0.3s ease;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     animation: swipePulse 2s ease-in-out infinite;
   }
   
   .carousel-wrapper:not(.carousel-wrapper--at-end)::before {
-    opacity: 0.85;
+    opacity: 1;
   }
 }
 
 /* Subtle pulse animation for swipe indicator */
 @keyframes swipePulse {
   0%, 100% {
-    opacity: 0.85;
+    opacity: 1;
     transform: translateY(-50%) translateX(0);
   }
   50% {
-    opacity: 1;
-    transform: translateY(-50%) translateX(4px);
+    opacity: 0.6;
+    transform: translateY(-50%) translateX(8px);
   }
 }
 
@@ -788,5 +814,59 @@
   
   .furniture-search__clear {
     right: 0.875rem;
+  }
+}
+
+
+/* ==========================================================================
+   CATEGORY FILTERING - Enhanced Focus State
+   ========================================================================== */
+
+/* Highlighted category section (when accessed via "See All" or URL hash) */
+.carousel-section--highlighted {
+  position: relative;
+}
+
+.carousel-section--highlighted::before {
+  content: '';
+  position: absolute;
+  inset: -1rem;
+  background: linear-gradient(90deg, 
+    rgba(184, 147, 74, 0.05) 0%, 
+    rgba(184, 147, 74, 0.1) 50%, 
+    rgba(184, 147, 74, 0.05) 100%);
+  border-radius: 12px;
+  animation: highlightPulse 2s ease-out forwards;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes highlightPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+.carousel-section--highlighted .carousel-section__header {
+  animation: titleHighlight 0.6s ease-out;
+}
+
+@keyframes titleHighlight {
+  0%, 100% {
+    transform: translateY(0);
+    color: inherit;
+  }
+  50% {
+    transform: translateY(-4px);
+    color: var(--c-gold);
   }
 }
